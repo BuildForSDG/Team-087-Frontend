@@ -18,7 +18,7 @@ In the midst of a pandemic such as we have around the world today with the `COVI
 
 ## Usage
 <!-- How would someone use what you have built, include URLs to the deployed app, service e.t.c when you have it setup -->
-This frontend project can be accessed via https://mental-lyf.herokuapp.com.
+This frontend project can be accessed via <https://mental-lyf.herokuapp.com>.
 <br><br>
 
 ## Setup
@@ -26,15 +26,14 @@ Run `yarn install` .
 
 In the project directory, you can run:
 
-#### Hints
-##### `yarn start`
+### Hints
+#### `yarn start`
 Runs the app in the development mode. The page will reload if you make edits. You will also see any lint errors in the console. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-
-##### `yarn test`
+#### `yarn test`
 Launches the test runner in the interactive watch mode.<br />
 
-##### `yarn build`
+#### `yarn build`
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
@@ -47,19 +46,25 @@ Your app is ready to be deployed!
 <!-- List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should siffice. Ok to signify the role they play in the project, including the TTL and mentor -->
 
 <!-- ### Team-087 Members -->
-- Harcourt Hamsa - **`Frontend`** - https://github.com/harcourthamsa
-- Dave Chinweike - **`Frontend`** - https://github.com/daveOnactive
-- Eze Promise - **`Backend`** - https://github.com/Code-panther
-- Emma NWAMAIFE - **`Backend/TTL`** - https://github.com/highman95
-- Edafe - **`Mentor`** - https://github.com/JohnMadakin
-<br><br>
+  - Harcourt Hamsa - **`Frontend`** - <https://github.com/harcourthamsa>
+  
+  - Dave Chinweike - **`Frontend`** - <https://github.com/daveOnactive>
+  
+  - Eze Promise - **`Backend`** - <https://github.com/Code-panther>
+  
+  - Emma NWAMAIFE - **`Backend/TTL`** - <https://github.com/highman95>
+
+  - Edafe - **`Mentor`** - <https://github.com/JohnMadakin>
+  <br><br>
 
 ## Contributing
 
 If this project sounds interesting to you and you'd like to contribute, thank you!
-First, you can send a mail to buildforsdg@andela.com to indicate your interest, why you'd like to support and what forms of support you can bring to the table, but here are areas we think we'd need the most help in this project :
+First, you can send a mail to <buildforsdg@andela.com> to indicate your interest, why you'd like to support and what forms of support you can bring to the table, but here are areas we think we'd need the most help in this project :
 1.  area one (e.g this app is about `mental-health patients` and the `specialists`/service-providers in this health-sector and you need feedback on your roadmap and feature list from the private sector / NGOs)
-2.  area two (e.g you want people to opt-in and try using your staging app at https://mental-lyf.herokuapp.com and report any bugs via a form)
+
+2.  area two (e.g you want people to opt-in and try using your staging app at <https://mental-lyf.herokuapp.com> and report any bugs via a form)
+
 3.  area three (e.g here is the zoom link to our end-of sprint webinar, join and provide feedback as a stakeholder if you can)
 <br><br>
 
