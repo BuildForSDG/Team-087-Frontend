@@ -1,4 +1,4 @@
-# Mental.ly [UI]
+# Mental.ly \[UI]
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/41ee9c67027c4a358171d96475c8eee1)](https://app.codacy.com/gh/BuildForSDG/Team-087-Frontend?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDG/Team-087-Frontend&utm_campaign=Badge_Grade_Settings)
 
