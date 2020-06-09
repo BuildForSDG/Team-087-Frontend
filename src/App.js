@@ -4,6 +4,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
+
 const THEME = createMuiTheme ({
   typography: {
     fontFamily: "'Raleway', sans-serif",
@@ -15,8 +16,9 @@ function App () {
     <MuiThemeProvider theme={THEME}>
       <Router>
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Signup} />
           <Route exact path="/join" component={Signup} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </Router>
     </MuiThemeProvider>

@@ -1,16 +1,12 @@
-import React, {useState} from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Hidden from '@material-ui/core/Hidden';
-import Link from '@material-ui/core/Link';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import {
+  Box, Button, FormControlLabel, FormLabel, Grid,
+  Link, RadioGroup, Radio, TextField, Typography
+} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+import { endPoints, fetchBot } from '../../helpers';
 
-const useStyles = makeStyles (theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
   },
@@ -26,19 +22,19 @@ const useStyles = makeStyles (theme => ({
   },
   title: {
     fontWeight: 'bolder',
-    marginTop: theme.spacing (3),
+    marginTop: theme.spacing(3),
   },
   text_muted: {
     color: 'grey',
   },
 
   form: {
-    padding: theme.spacing (3),
-    marginTop: theme.spacing (0),
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(0),
   },
   submit: {
-    margin: theme.spacing (3, 0, 2),
-    padding: theme.spacing (2, 1, 3),
+    margin: theme.spacing(3, 0, 2),
+    padding: theme.spacing(2, 1, 3),
     backgroundColor: '#0c0032',
     borderRadius: 0,
     textTransform: 'none',
@@ -47,7 +43,7 @@ const useStyles = makeStyles (theme => ({
     color: 'white',
     border: '2px solid white',
     borderRadius: 0,
-    margin: theme.spacing (1),
+    margin: theme.spacing(1),
     textTransform: 'none',
   },
   text_white: {
@@ -56,104 +52,163 @@ const useStyles = makeStyles (theme => ({
     textTransform: 'none',
   },
   hiddenBtn: {
-    margin: theme.spacing (1),
+    margin: theme.spacing(1),
     color: '#3f51b5',
     border: '2px solid #0c0032',
-    padding: theme.spacing (1),
+    padding: theme.spacing(1),
     borderRadius: 0,
     textTransform: 'none',
   },
   pr: {
-    paddingRight: theme.spacing (1),
+    paddingRight: theme.spacing(1),
+  },
+  pb: {
+    paddingBottom: theme.spacing(2),
   },
 }));
 
-const SpecialistSignupPage = () => {
-  const classes = useStyles ();
-  const [firstName, setFirstName] = useState ();
-  const [lastName, setLastName] = useState ();
-  const [email, setEmail] = useState ();
-  const [password, setPassword] = useState ();
-  const [confirmPassword, setConfirmPassword] = useState ();
+const SignupPage = () => {
+  const classes = useStyles();
 
-  const handleFirstNameUpdate = e => {
-    setFirstName (e.target.value);
-  };
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [gender, setGender] = useState('female');
+  const [subscriberType, setSubscriberType] = useState('patient');
 
-  const handleLastNameUpdate = e => {
-    setLastName (e.target.value);
-  };
+  const [isSaving, setIsSaving] = useState(false);
+  const [successFeedBack, setSuccessFeedBack] = useState('');
+  const [errorFeedBack, setErrorFeedBack] = useState('');
+  //   const [errorBag, setErrorBag] = useState([]);
 
-  const handleEmailUpdate = e => {
-    setEmail (e.target.value);
-  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setIsSaving(true);
 
-  const handlePasswordUpdate = e => {
-    setPassword (e.target.value);
-  };
+    const userProfile = {
+      "last_name": lastName,
+      "first_name": firstName,
+      "email": email,
+      "gender": gender,
+      "password": password,
+      "password_confirmation": confirmPassword,
+      "is_patient": (subscriberType === 'patient')
+    };
 
-  const handleConfirmPasswordUpdate = e => {
-    setConfirmPassword (e.target.value);
-  };
+    const options = {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(userProfile),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const { message } = await fetchBot(`${endPoints.signUp}`, options);
+      setSuccessFeedBack(message);
+
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+    } catch (err) {
+      setErrorFeedBack(err.message);
+      // setErrorBag(err.errors);
+      // console.log(err.errors);
+    }
+
+    setPassword('');
+    setConfirmPassword('');
+    setIsSaving(false);
+  }
 
   return (
     <div>
       <Grid container componet="main" className={classes.root}>
-        <Grid item xs={12} lg={6} className={classes.bg}>
-          <Hidden xsDown>
+        <Grid item xs={12} lg={7} className={classes.bg}>
+          {/* <Hidden xsDown>
             <Button className={classes.squareBtn}>
               <Link className={classes.text_white} href="/login">Login</Link>
             </Button>
-          </Hidden>
+          </Hidden> */}
         </Grid>
         <Grid item xs={12} lg>
-          <Hidden smUp>
+          {/* <Hidden smUp>
             <Button className={classes.hiddenBtn}>
               <Link href="/login">Login</Link>
             </Button>
-          </Hidden>
+          </Hidden> */}
           <Box className={classes.paper}>
             <Typography className={classes.title} component="h1" variant="h5">
               Create A Free Account
             </Typography>
-            <samll className={classes.text_muted}>
-              You've got patients waiting!
-            </samll>
-            <form className={classes.form}>
-              <div>
+            <small className={classes.text_muted}>
+              You've got patients | specialists waiting!
+            </small><br />
+
+            {successFeedBack && <div className='message alert full-length alert-success'>{successFeedBack}</div>}
+            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+
+            <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
+              <div className={classes.pb}>
                 <TextField
                   className={classes.pr}
                   variant="outlined"
                   type="text"
-                  label="First name"
+                  label="First Name"
                   margin="normal"
                   required
-                  name="firstname"
+                  name="first_name"
                   value={firstName}
-                  onChange={handleFirstNameUpdate}
+                  onChange={e => setFirstName(e.target.value)}
+                  //   helperText="Enter Your Firstname"
+                  disabled={isSaving}
                 />
                 <TextField
                   variant="outlined"
                   type="text"
-                  label="Last name"
+                  label="Last Name"
                   margin="normal"
                   required
-                  name="lastname"
+                  name="last_name"
                   value={lastName}
-                  onChange={handleLastNameUpdate}
+                  onChange={e => setLastName(e.target.value)}
+                  //   helperText="Enter Your Lastname"
+                  disabled={isSaving}
                 />
               </div>
+
+              <div className={classes.pb}>
+                <FormLabel component="legend">Gender:</FormLabel>
+                <RadioGroup aria-label="gender" name="gender" value={gender} onChange={e => setGender(e.target.value)}>
+                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                  <FormControlLabel value="male" control={<Radio />} label="Male" />
+                </RadioGroup>
+              </div>
+
+              <div>
+                <FormLabel component="legend">Subscriber Type:</FormLabel>
+                <RadioGroup aria-label="subscriber_type" name="subscriber_type" value={subscriberType} onChange={e => setSubscriberType(e.target.value)}>
+                  <FormControlLabel value="patient" control={<Radio />} label="Patient" />
+                  <FormControlLabel value="specialist" control={<Radio />} label="Mental-Health Specialist" />
+                </RadioGroup>
+              </div>
+
               <TextField
                 variant="outlined"
-                label="Email address"
+                label="Email Address"
                 margin="normal"
                 required
                 fullWidth
                 name="email"
                 value={email}
-                onChange={handleEmailUpdate}
+                onChange={e => setEmail(e.target.value)}
+                disabled={isSaving}
               />
-              <p className={classes.text_muted}>
+
+              {/* <p className={classes.text_muted}>
                 Who do you want to sign up as ?
               </p>
 
@@ -166,10 +221,11 @@ const SpecialistSignupPage = () => {
               >
                 <MenuItem value="individual">Individual</MenuItem>
                 <MenuItem value="specialist">Specialist</MenuItem>
-              </Select>
-              <p className={classes.text_muted}>
+              </Select> */}
+
+              {/* <p className={classes.text_muted}>
                 Create a unique password
-              </p>
+              </p> */}
               <div>
                 <TextField
                   className={classes.pr}
@@ -180,30 +236,34 @@ const SpecialistSignupPage = () => {
                   required
                   name="password"
                   value={password}
-                  onChange={handlePasswordUpdate}
+                  onChange={e => setPassword(e.target.value)}
+                  disabled={isSaving}
                 />
                 <TextField
                   variant="outlined"
                   type="password"
-                  label="Confirm password "
+                  label="Confirm Password"
                   margin="normal"
                   required
                   name="confirmPassword"
                   value={confirmPassword}
-                  onChange={handleConfirmPasswordUpdate}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  disabled={isSaving}
                 />
               </div>
 
               <Button
-                className={classes.submit}
+                // className={classes.submit}
                 type="submit"
+                size="large"
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 margin="normal"
                 data-submit-btn="true"
+                disabled={isSaving}
               >
-                Create Account
+                Submit
               </Button>
               <small className={classes.text_muted}>
                 Already have an account? <Link href="/login"> Login </Link>{' '}
@@ -216,4 +276,4 @@ const SpecialistSignupPage = () => {
   );
 };
 
-export default SpecialistSignupPage;
+export default SignupPage;

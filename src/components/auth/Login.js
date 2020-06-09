@@ -79,13 +79,13 @@ const Login = () => {
   return (
     <div>
       <Grid container component="main" className={classes.root}>
-        <Hidden xsDown>
+        {/* <Hidden xsDown>
           <Grid item xs={12} lg={8} className={`${classes.bg}`}>
             <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
               <Link className={classes.text_white} href="/join">Sign Up</Link>
             </Button>
           </Grid>
-        </Hidden>
+        </Hidden> */}
 
         <Grid item xs={12} lg>
           <Hidden smUp>
@@ -93,8 +93,8 @@ const Login = () => {
               <Link href="/join">Sign Up</Link>
             </Button>
           </Hidden>
-          <Paper className={classes.paper}>
 
+          <Paper className={classes.paper}>
             <Typography className={classes.title} component="h1" variant="h5">
               Log Into Your Account
             </Typography>
@@ -136,7 +136,8 @@ const Login = () => {
               >
                 Log in
               </Button>
-              <small><Link>Fogot password?</Link></small>
+              <small><Link>Forgot password?</Link></small><br/>
+              <small>First-Time User? <Link href="/join">Sign Up</Link></small>
             </form>
           </Paper>
         </Grid>
