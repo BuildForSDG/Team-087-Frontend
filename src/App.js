@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
+import NotFound from './components/NotFound';
 
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
 
@@ -19,6 +20,7 @@ function App () {
           <Route exact path="/" component={Signup} />
           <Route exact path="/join" component={Signup} />
           <Route exact path="/login" component={Login} />
+          <Route path="*" component={NotFound} />
         </Switch>
       </Router>
     </MuiThemeProvider>
