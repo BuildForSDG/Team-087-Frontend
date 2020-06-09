@@ -2,7 +2,7 @@ import {createShallow} from '@material-ui/core/test-utils';
 import Signup from '../components/auth/Signup';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
-import {Select, Button} from '@material-ui/core';
+import {Select} from '@material-ui/core';
 
 describe ('<Signup /> component', () => {
   let shallow;

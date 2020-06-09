@@ -4,10 +4,10 @@ import Button from '@material-ui/core/Button';
 import Login from '../components/auth/Login';
 import TextField from '@material-ui/core/TextField';
 
-const mockData = {
+/* const mockData = {
   email: 'hamsaharcourt@gmail.com',
   password: 'eckankar2757101',
-};
+}; */
 
 describe ('<Login /> component', () => {
   let shallow;
