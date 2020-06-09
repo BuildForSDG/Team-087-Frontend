@@ -1,8 +1,7 @@
 import {createShallow} from '@material-ui/core/test-utils';
 import Signup from '../components/auth/Signup';
-import TextField from '@material-ui/core/TextField';
 import React from 'react';
-import {Select} from '@material-ui/core';
+import {RadioGroup, TextField} from '@material-ui/core';
 
 describe ('<Signup /> component', () => {
   let shallow;
@@ -16,10 +15,15 @@ describe ('<Signup /> component', () => {
     expect (wrapper.find (TextField).length).toEqual (5);
   });
 
-  it ('should have a select input field', () => {
+  it ('should have 2 radio-group fields', () => {
     const wrapper = shallow (<Signup />);
-    expect (wrapper.find (Select).length).toEqual (1);
+    expect (wrapper.find (RadioGroup).length).toEqual (2);
   });
+
+  /* it ('should have 4 radio-button form-control fields', () => {
+    const wrapper = shallow (<Signup />);
+    expect (wrapper.find (FormControl).length).toEqual (4);
+  }); */
 
   // Checking for state update by simulating a change in the input field and see if the prop changes
   it ('should check for prop changes when an onChange event happens', () => {
@@ -77,6 +81,6 @@ describe ('<Signup /> component', () => {
   it ('should have a signup button', () => {
     const wrapper = shallow (<Signup />);
     expect (wrapper.find ('[data-submit-btn]').length).toEqual (1);
-    expect(wrapper.find('[data-submit-btn]').text()).toEqual("Create Account")
+    expect(wrapper.find('[data-submit-btn]').text()).toEqual("Submit")
   });
 });
