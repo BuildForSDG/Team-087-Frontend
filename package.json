@@ -19,10 +19,25 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx src/ --fix"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "react/jsx-indent-props": [
+        "error",
+          2
+      ],
+      "react/jsx-indent": [
+        "error",
+          2
+      ],
+      "indent": [
+        "error",
+          2
+      ]
+    }
   },
   "browserslist": {
     "production": [
