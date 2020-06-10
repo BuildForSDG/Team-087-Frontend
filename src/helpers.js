@@ -6,9 +6,11 @@ export const fetchToken = () => (isLoggedIn ? JSON.parse(localStorage.getItem(st
 
 export const fetchFirstName = () => (isLoggedIn ? JSON.parse(localStorage.getItem(storageId)).firstName : null);
 
-export const registerAuth = ({ token, firstName = '' }) => {
+export const isPatient = () => (isLoggedIn ? JSON.parse(localStorage.getItem(storageId)).authed.is_patient : false);
+
+export const registerAuth = ({ token, firstName = '', user }) => {
   try {
-    localStorage.setItem(storageId, JSON.stringify({ token, firstName }));
+    localStorage.setItem(storageId, JSON.stringify({ token, firstName, authed: user }));
     return true;
   } catch (error) {
     return false;
@@ -30,16 +32,10 @@ class MhappError extends Error {
 
 const object2arrayconvertr = (o) => (o ? Object.entries(o).map(([k, v]) => ({ [k]: (typeof v === 'object' ? object2arrayconvertr(v) : v) })) : o);
 
-export const handleErrorResult = (result) => {
-  let isJWTExpired = false;
-  /* const errorPipe = result.errors.map((error) => {
-    console.log('---', error);
-    isJWTExpired = !isJWTExpired && ((error.includes('expired') || error.includes('invalid')) && error.toLowerCase().includes('token'));
-    return error;
-  }) */
+export const handleErrorResult = (result, status) => {
+  let isJWTExpired = ((status === 401) && (result.message.toLowerCase() === 'authentication failed'));
 
   if (!isJWTExpired) {
-    // throw new Error(errorPipe.join('|'));
     const errorBag = result.errors.error ? [result.errors.error] : object2arrayconvertr(result.errors);
     throw new MhappError(result.message, errorBag);
   }
@@ -52,7 +48,7 @@ export const fetchBot = async (endPoints, options) => {
   const result = await response.json();
 
   if (!result.status) {
-    handleErrorResult(result);
+    handleErrorResult(result, response.status);
   }
 
   return result;
@@ -60,7 +56,7 @@ export const fetchBot = async (endPoints, options) => {
 
 export const signOut = () => {
   localStorage.removeItem(storageId);
-  window.location = '/';
+  window.location = '/login';
 };
 
 
@@ -71,14 +67,13 @@ export const endPoints = {
   signIn: `${url}/auth/signin`,
   signUp: `${url}/auth/register`,
   verify: `${url}/auth/verify`,
-  users: 
-    {
-      uri: `${url}/users`,
-      paths: {
-        appointments: '/appointments',
-        reviews: '/reviews',
-        chats: '/chats',
-      }
+  users: {
+    uri: `${url}/users`,
+    paths: {
+      appointments: '/appointments',
+      reviews: '/reviews',
+      chats: '/chats',
     }
+  }
 };
 

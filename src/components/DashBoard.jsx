@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Button } from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,25 +21,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NotFound = () => {
+const DashBoard = () => {
   const classes = useStyles();
 
   return (
     <>
-      <Header />
-      <Grid item xs={12} lg>
-        <Paper className={classes.paper}>
-          <h3>Oops!!!</h3>
-          <div>This page no longer exists...</div>
+      <Grid container component="main" className={classes.root}>
+        <Header />
 
-          <br />
-          <Button className={classes.submitSmall} type="reset" size="large" color="secondary" component="a" href="/" variant="contained" margin="normal">
-            Return
-          </Button>
-        </Paper>
+        <Grid item xs={12} lg>
+          <Paper className={classes.paper}>
+            <Typography variant="h5">
+              DashBoard
+            </Typography>
+          </Paper>
+        </Grid>
       </Grid>
     </>
   );
 }
 
-export default NotFound;
+export default DashBoard;
