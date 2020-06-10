@@ -33,10 +33,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-    padding: theme.spacing(2, 1, 3),
-    backgroundColor: '#0c0032',
-    borderRadius: 0,
+    margin: theme.spacing(2, 0, 2),
+    padding: theme.spacing(2, 1, 2),
+    fontSize: '1.2em',
+    // backgroundColor: '#0c0032',
+    // borderRadius: 0,
     textTransform: 'none',
   },
   squareBtn: {
@@ -253,7 +254,7 @@ const SignupPage = () => {
               </div>
 
               <Button
-                // className={classes.submit}
+                className={classes.submit}
                 type="submit"
                 size="large"
                 fullWidth

@@ -1,14 +1,9 @@
-import React, {useState} from 'react';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
-import Link from '@material-ui/core/Link';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { Button, Grid, Link, Paper, Typography, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { endPoints, fetchBot, registerAuth } from '../../helpers';
 
-const useStyles = makeStyles (theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
   },
@@ -19,14 +14,15 @@ const useStyles = makeStyles (theme => ({
     height: '100vh',
   },
   form: {
-    padding: theme.spacing (3),
-    marginTop: theme.spacing (3),
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing (3, 0, 2),
-    padding: theme.spacing (2, 1, 3),
-    backgroundColor: '#0c0032;',
-    borderRadius: 0,
+    margin: theme.spacing(2, 0, 2),
+    padding: theme.spacing(2, 1, 2),
+    fontSize: '1.2em',
+    // backgroundColor: '#0c0032;',
+    // borderRadius: 0,
     textTransform: 'none',
   },
   bg: {
@@ -36,21 +32,21 @@ const useStyles = makeStyles (theme => ({
     color: 'white',
     border: '2px solid white',
     borderRadius: 0,
-    margin: theme.spacing (1),
+    margin: theme.spacing(1),
     textTransform: 'none',
   },
   hiddenBtn: {
-    margin: theme.spacing (1),
+    margin: theme.spacing(1),
     color: '#3f51b5',
     border: '2px solid #0c0032;',
-    padding: theme.spacing (1),
+    padding: theme.spacing(1),
     borderRadius: 0,
     textTransform: 'none',
   },
 
   title: {
     fontWeight: 'bolder',
-    marginTop: theme.spacing (3),
+    marginTop: theme.spacing(3),
     color: '#0c0032'
   },
   text_white: {
@@ -64,35 +60,55 @@ const useStyles = makeStyles (theme => ({
 }));
 
 const Login = () => {
-  const classes = useStyles ();
-  const [email, setEmail] = useState ('');
-  const [password, setPassword] = useState ('');
+  const classes = useStyles();
 
-  const handleEmailUpdate = e => {
-    setEmail (e.target.value);
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handlePasswordUpdate = e => {
-    setPassword (e.target.value);
+  const [isCalling, setIsCalling] = useState(false);
+  const [errorFeedBack, setErrorFeedBack] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsCalling(true);
+
+    const options = {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const { access_token: token, data: { first_name } } = await fetchBot(`${endPoints.signIn}`, options);
+      const done = registerAuth({ token, firstName: first_name });
+      if (done) window.location = '/dashboard';
+    } catch (err) {
+      setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
+    }
+
+    setIsCalling(false);
   };
 
   return (
     <div>
       <Grid container component="main" className={classes.root}>
-        {/* <Hidden xsDown>
-          <Grid item xs={12} lg={8} className={`${classes.bg}`}>
+        <Grid item xs={12} lg={8} className={`${classes.bg}`}>
+          {/* <Hidden xsDown>
             <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
               <Link className={classes.text_white} href="/join">Sign Up</Link>
             </Button>
-          </Grid>
         </Hidden> */}
+        </Grid>
 
         <Grid item xs={12} lg>
-          <Hidden smUp>
+          {/* <Hidden smUp>
             <Button className={classes.hiddenBtn} d="hidden-sign-up-btn-2">
               <Link href="/join">Sign Up</Link>
             </Button>
-          </Hidden>
+          </Hidden> */}
 
           <Paper className={classes.paper}>
             <Typography className={classes.title} component="h1" variant="h5">
@@ -101,14 +117,19 @@ const Login = () => {
             <small className={classes.text_muted}>
               Yes, Your Mental Health Is Important
             </small>
-            <form className={classes.form}>
+
+            <br/>
+            <br/>
+            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
-                label="Email or username"
+                label="Email or Username"
                 margin="normal"
                 name="email"
                 value={email}
-                onChange={handleEmailUpdate}
+                onChange={e => setEmail(e.target.value)}
                 required
                 fullWidth
                 data-testid="email"
@@ -118,25 +139,27 @@ const Login = () => {
                 type="password"
                 name="password"
                 value={password}
-                onChange={handlePasswordUpdate}
+                onChange={e => setPassword(e.target.value)}
                 label="Password"
                 margin="normal"
                 required
                 fullWidth
               />
+              <br/>
               <Button
                 className={classes.submit}
                 type="submit"
                 id="login_btn"
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 margin="normal"
                 data-testid="submit-btn"
+                disabled={isCalling}
               >
-                Log in
+                {isCalling ? `Authenticating...` : `Log In`}
               </Button>
-              <small><Link>Forgot password?</Link></small><br/>
+              <small><Link>Forgot password?</Link></small><br />
               <small>First-Time User? <Link href="/join">Sign Up</Link></small>
             </form>
           </Paper>

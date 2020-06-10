@@ -36,7 +36,9 @@
       "indent": [
         "error",
           2
-      ]
+      ],
+      "quotes":"off",
+      "jsx-quotes":"off"
     }
   },
   "browserslist": {
