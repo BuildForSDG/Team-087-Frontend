@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {Button, Grid, Link, Paper, Typography, TextField} from '@material-ui/core';
+import { Button, Grid, Link, Paper, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { endPoints, fetchBot, registerAuth } from '../../helpers';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,8 +61,36 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [isCalling, setIsCalling] = useState(false);
+  const [errorFeedBack, setErrorFeedBack] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsCalling(true);
+
+    const options = {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const { access_token: token, data: { first_name } } = await fetchBot(`${endPoints.signIn}`, options);
+      const done = registerAuth({ token, firstName: first_name });
+      if (done) window.location = '/dashboard';
+    } catch (err) {
+      setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
+    }
+
+    setIsCalling(false);
+  };
 
   return (
     <div>
@@ -88,10 +117,15 @@ const Login = () => {
             <small className={classes.text_muted}>
               Yes, Your Mental Health Is Important
             </small>
-            <form className={classes.form}>
+
+            <br/>
+            <br/>
+            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
-                label="Email or username"
+                label="Email or Username"
                 margin="normal"
                 name="email"
                 value={email}
@@ -111,6 +145,7 @@ const Login = () => {
                 required
                 fullWidth
               />
+              <br/>
               <Button
                 className={classes.submit}
                 type="submit"
@@ -120,8 +155,9 @@ const Login = () => {
                 color="secondary"
                 margin="normal"
                 data-testid="submit-btn"
+                disabled={isCalling}
               >
-                Log in
+                {isCalling ? `Authenticating...` : `Log In`}
               </Button>
               <small><Link>Forgot password?</Link></small><br />
               <small>First-Time User? <Link href="/join">Sign Up</Link></small>

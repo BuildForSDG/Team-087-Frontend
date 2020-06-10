@@ -28,6 +28,8 @@ class MhappError extends Error {
   }
 }
 
+const object2arrayconvertr = (o) => (o ? Object.entries(o).map(([k, v]) => ({ [k]: (typeof v === 'object' ? object2arrayconvertr(v) : v) })) : o);
+
 export const handleErrorResult = (result) => {
   let isJWTExpired = false;
   /* const errorPipe = result.errors.map((error) => {
@@ -37,8 +39,9 @@ export const handleErrorResult = (result) => {
   }) */
 
   if (!isJWTExpired) {
-    //throw new Error(errorPipe.join('|'));
-    throw new MhappError(result.message, result.errors);
+    // throw new Error(errorPipe.join('|'));
+    const errorBag = result.errors.error ? [result.errors.error] : object2arrayconvertr(result.errors);
+    throw new MhappError(result.message, errorBag);
   }
 
   signOut();
@@ -62,7 +65,7 @@ export const signOut = () => {
 
 
 // const url = process.env.API_BASE_URL;
-const url = 'https://mental-ly.herokuapp.com/api/v1';// 'http://team-087-build4sdg.test:81/api/v1';
+const url = 'https://mental-ly.herokuapp.com/api/v1';
 
 export const endPoints = {
   signIn: `${url}/auth/signin`,
