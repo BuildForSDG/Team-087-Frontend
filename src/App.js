@@ -17,9 +17,9 @@ function App () {
     <MuiThemeProvider theme={THEME}>
       <Router>
         <Switch>
-          <Route exact path="/" component={Signup} />
-          <Route exact path="/join" component={Signup} />
+          <Route exact path="/" component={Login} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/join" component={Signup} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
