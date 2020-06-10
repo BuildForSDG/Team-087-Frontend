@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
   Box, Button, FormControlLabel, FormLabel, Grid,
-  Link, RadioGroup, Radio, TextField, Typography
+  Link, RadioGroup, Radio, TextField, Typography, CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot } from '../../helpers';
+import Header from '../Header';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -128,6 +129,8 @@ const SignupPage = () => {
   return (
     <div>
       <Grid container componet="main" className={classes.root}>
+        <Header />
+
         <Grid item xs={12} lg={7} className={classes.bg}>
           {/* <Hidden xsDown>
             <Button className={classes.squareBtn}>
@@ -145,8 +148,9 @@ const SignupPage = () => {
             <Typography className={classes.title} component="h1" variant="h5">
               Create A Free Account
             </Typography>
-            <small className={classes.text_muted}>
-              You've got patients | specialists waiting!
+            <small className={classes.text_muted} style={{display:"flex",alignItems: "center"}}>
+              You've got patients | specialists waiting! <br />
+              Sign-up &amp; Get Recommendations
             </small><br />
 
             {successFeedBack && <div className='message alert full-length alert-success'>{successFeedBack}</div>}
@@ -208,25 +212,6 @@ const SignupPage = () => {
                 onChange={e => setEmail(e.target.value)}
                 disabled={isSaving}
               />
-
-              {/* <p className={classes.text_muted}>
-                Who do you want to sign up as ?
-              </p>
-
-              <Select
-                variant="outlined"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                fullWidth
-                name="signupAs"
-              >
-                <MenuItem value="individual">Individual</MenuItem>
-                <MenuItem value="specialist">Specialist</MenuItem>
-              </Select> */}
-
-              {/* <p className={classes.text_muted}>
-                Create a unique password
-              </p> */}
               <div>
                 <TextField
                   className={classes.pr}
@@ -264,7 +249,7 @@ const SignupPage = () => {
                 data-submit-btn="true"
                 disabled={isSaving}
               >
-                Submit
+                {isSaving ? <CircularProgress color="secondary" /> : `Submit`}
               </Button>
               <small className={classes.text_muted}>
                 Already have an account? <Link href="/login"> Login </Link>{' '}

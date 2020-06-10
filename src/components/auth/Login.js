@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Grid, Link, Paper, Typography, TextField } from '@material-ui/core';
+import { Button, Grid, Link, Paper, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, registerAuth } from '../../helpers';
+import Header from '../Header';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -82,9 +83,10 @@ const Login = () => {
     };
 
     try {
-      const { access_token: token, data: { first_name } } = await fetchBot(`${endPoints.signIn}`, options);
-      const done = registerAuth({ token, firstName: first_name });
+      const { access_token: token, data: user } = await fetchBot(`${endPoints.signIn}`, options);
+      const done = registerAuth({ token, firstName: user.first_name, user });
       if (done) window.location = '/dashboard';
+      return;
     } catch (err) {
       setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
     }
@@ -95,6 +97,8 @@ const Login = () => {
   return (
     <div>
       <Grid container component="main" className={classes.root}>
+        <Header />
+
         <Grid item xs={12} lg={8} className={`${classes.bg}`}>
           {/* <Hidden xsDown>
             <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
@@ -115,7 +119,7 @@ const Login = () => {
               Log Into Your Account
             </Typography>
             <small className={classes.text_muted}>
-              Yes, Your Mental Health Is Important
+              Your Mental Health Is Important
             </small>
 
             <br/>
@@ -157,7 +161,7 @@ const Login = () => {
                 data-testid="submit-btn"
                 disabled={isCalling}
               >
-                {isCalling ? `Authenticating...` : `Log In`}
+                {isCalling ? <CircularProgress color="secondary" /> : `Log In`}
               </Button>
               <small><Link>Forgot password?</Link></small><br />
               <small>First-Time User? <Link href="/join">Sign Up</Link></small>
