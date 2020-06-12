@@ -69,6 +69,7 @@ const Header = () => {
             >
               <MenuItem onClick={() => setAnchorE1(null)}>Profile</MenuItem>
               <MenuItem component="a" href="/users">Users</MenuItem>
+              <MenuItem component="a" href="/neighbourhood-experts">Recommendations</MenuItem>
               <MenuItem onClick={() => setAnchorE1(null)}>Settings</MenuItem>
             </Menu>
           </>
