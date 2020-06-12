@@ -71,7 +71,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setIsCalling(true);
+    setErrorFeedBack('');
 
     const options = {
       method: 'POST',

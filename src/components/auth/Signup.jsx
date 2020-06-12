@@ -87,7 +87,10 @@ const SignupPage = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     setIsSaving(true);
+    setSuccessFeedBack('');
+    setErrorFeedBack('');
 
     const userProfile = {
       "last_name": lastName,
