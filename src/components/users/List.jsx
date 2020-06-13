@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Button, Grid, Paper, Typography, TableContainer, Table, TableHead,
   TableRow, TableCell, TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination
@@ -80,6 +81,7 @@ const UsersList = () => {
 
   const fetchUsers = async (page, rowsPerPage) => {
     setIsCalling(true);
+    setErrorFeedBack('');
 
     const options = {
       method: 'GET',
@@ -113,7 +115,7 @@ const UsersList = () => {
     }
   }, [rowsPerPage, page]);
 
-  const handleChangePage = (e, newPage) => {setPage(newPage);}
+  const handleChangePage = (e, newPage) => setPage(newPage);
 
   const handleChangeRowsPerPage = (e) => {
     setRowsPerPage(++e.target.value);
@@ -137,11 +139,11 @@ const UsersList = () => {
 
             <br />
             <br />
-            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-
             <Button className={classes.submitSmall} type="reset" color="secondary" variant="contained" margin="normal">
               <Add titleAccess="register" />
             </Button>
+
+            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
             <Divider />
 
             {isCalling ? (
@@ -151,14 +153,14 @@ const UsersList = () => {
               </>
             ) : (
               <>
-                <TableContainer sticky component={Paper}>
-                  <Table className={classes.table} aria-label="users table">
+                <TableContainer component={Paper}>
+                  <Table stickyHeader className={classes.table} aria-label="users table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Last Name</TableCell>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>Gender</TableCell>
-                        <TableCell align="center">Category</TableCell>
+                        <TableCell><strong>Last Name</strong></TableCell>
+                        <TableCell><strong>First Name</strong></TableCell>
+                        <TableCell><strong>Gender</strong></TableCell>
+                        <TableCell align="center"><strong>Category</strong></TableCell>
                         <TableCell colSpan="2">&nbsp;</TableCell>
                       </TableRow>
                     </TableHead>
@@ -179,7 +181,7 @@ const UsersList = () => {
                               label={user.is_active ? 'active' : 'inactive'} />
                           </TableCell>
                           <TableCell align="center">
-                            <Chip icon={<Face />} label="View" component="a" href={`/users/${user.id}`} clickable />
+                            <Chip icon={<Face />} label="View" component={RouterLink} to={`/users/${user.id}`} clickable />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -187,7 +189,7 @@ const UsersList = () => {
                   </Table>
                 </TableContainer>
                 <TablePagination rowsPerPage={rowsPerPage} component="div" count={total} page={page}
-                  onChange={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
+                  onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
               </>
             )}
           </Paper>

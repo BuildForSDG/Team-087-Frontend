@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Paper, Typography, LinearProgress, CardMedia, Card, CardContent, Container, 
   Button, CardActions, Divider, Chip 
 } from '@material-ui/core';
@@ -82,6 +83,7 @@ const useStyles = makeStyles(theme => ({
 
 const Recommedation = () => {
   const classes = useStyles();
+
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
@@ -99,6 +101,7 @@ const Recommedation = () => {
 
   const fetchSpecialists = async () => {
     setIsCalling(true);
+    setErrorFeedBack('');
 
     const options = {
       method: 'GET',
@@ -167,7 +170,7 @@ const Recommedation = () => {
                           </CardContent>
                           <CardActions>
                             <Button size="small" color="primary">
-                              <Chip icon={<Face />} label="View" color="secondary" component="a" href={`/users/${user.id}`} clickable />
+                              <Chip icon={<Face />} label="View" color="secondary" component={RouterLink} to={`/users/${user.id}`} clickable />
                             </Button>
                             {/* <Button size="small" color="primary">
                               Edit

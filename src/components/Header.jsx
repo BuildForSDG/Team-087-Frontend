@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Typography, AppBar, Toolbar, IconButton, Menu, MenuItem, FormGroup, FormControlLabel, Switch
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import { AccountCircle } from '@material-ui/icons';
-import { isLoggedIn, signOut } from '../helpers';
+import { AccountCircle, Menu as MenuIcon } from '@material-ui/icons';
+import { isLoggedIn, signOut, fetchFirstName } from '../helpers';
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 const Header = () => {
   const classes = useStyles();
   const [anchorE1, setAnchorE1] = useState(null);
-  const open = Boolean(anchorE1);
 
   return (
     <AppBar position="static" className={classes.bg}>
@@ -64,13 +63,14 @@ const Header = () => {
                 vertical: 'top',
                 horizontal: 'right'
               }}
-              open={open}
+              open={Boolean(anchorE1)}
               onClose={() => setAnchorE1(null)}
             >
-              <MenuItem onClick={() => setAnchorE1(null)}>Profile</MenuItem>
-              <MenuItem component="a" href="/users">Users</MenuItem>
-              <MenuItem component="a" href="/neighbourhood-experts">Recommendations</MenuItem>
-              <MenuItem onClick={() => setAnchorE1(null)}>Settings</MenuItem>
+              <MenuItem dense color="secondary">Hi! &nbsp; <strong>{fetchFirstName()}</strong></MenuItem>
+              <MenuItem dense onClick={() => setAnchorE1(null)}>Profile</MenuItem>
+              <MenuItem dense component={NavLink} to="/users">Users</MenuItem>
+              <MenuItem dense component={NavLink} to="/neighbourhood-experts">Recommendations</MenuItem>
+              <MenuItem dense onClick={() => setAnchorE1(null)}>Settings</MenuItem>
             </Menu>
           </>
         )}

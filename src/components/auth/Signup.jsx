@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 import {
   Box, Button, FormControlLabel, FormLabel, Grid,
   Link, RadioGroup, Radio, TextField, Typography, CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { endPoints, fetchBot } from '../../helpers';
+import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
 import Header from '../Header';
 
 const useStyles = makeStyles(theme => ({
@@ -69,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignupPage = () => {
+const SignupPage = (props) => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -127,6 +128,10 @@ const SignupPage = () => {
     setPassword('');
     setConfirmPassword('');
     setIsSaving(false);
+  }
+
+  if (isLoggedIn) {
+    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
   }
 
   return (
@@ -190,7 +195,7 @@ const SignupPage = () => {
 
               <div className={classes.pb}>
                 <FormLabel component="legend">Gender:</FormLabel>
-                <RadioGroup aria-label="gender" name="gender" value={gender} onChange={e => setGender(e.target.value)}>
+                <RadioGroup aria-label="gender" name="gender" value={gender} row onChange={e => setGender(e.target.value)}>
                   <FormControlLabel value="female" control={<Radio />} label="Female" />
                   <FormControlLabel value="male" control={<Radio />} label="Male" />
                 </RadioGroup>
@@ -198,7 +203,7 @@ const SignupPage = () => {
 
               <div>
                 <FormLabel component="legend">Subscriber Type:</FormLabel>
-                <RadioGroup aria-label="subscriber_type" name="subscriber_type" value={subscriberType} onChange={e => setSubscriberType(e.target.value)}>
+                <RadioGroup aria-label="subscriber_type" row value={subscriberType} onChange={e => setSubscriberType(e.target.value)}>
                   <FormControlLabel value="patient" control={<Radio />} label="Patient" />
                   <FormControlLabel value="specialist" control={<Radio />} label="Mental-Health Specialist" />
                 </RadioGroup>
@@ -255,7 +260,7 @@ const SignupPage = () => {
                 {isSaving ? <CircularProgress color="secondary" /> : `Submit`}
               </Button>
               <small className={classes.text_muted}>
-                Already have an account? <Link href="/login"> Login </Link>{' '}
+                Already have an account? <Link component={RouterLink} to="/login"> Login </Link>{' '}
               </small>
             </form>
           </Box>
