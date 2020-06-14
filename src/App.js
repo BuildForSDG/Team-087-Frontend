@@ -10,6 +10,7 @@ import DashBoard from './components/DashBoard';
 import Recommedation from './components/users/Recommendation';
 import { isLoggedIn } from './helpers';
 import Verify from './components/auth/Verify';
+import Appointment from './components/users/Appointment';
 
 /**
  *
@@ -37,6 +38,7 @@ function App () {
           <Route exact path="/" component={Login} />
           <PrivateRoute exact path="/dashboard" component={DashBoard} />
           <PrivateRoute exact path="/neighbourhood-experts" component={Recommedation} />
+          <PrivateRoute exact path="/appointments" component={Appointment} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/join" component={Signup} />
           <Route exact path="/verify" component={Verify} />

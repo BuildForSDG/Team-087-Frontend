@@ -70,6 +70,7 @@ const Header = () => {
               <MenuItem dense onClick={() => setAnchorE1(null)}>Profile</MenuItem>
               <MenuItem dense component={NavLink} to="/users">Users</MenuItem>
               <MenuItem dense component={NavLink} to="/neighbourhood-experts">Recommendations</MenuItem>
+              <MenuItem dense component={NavLink} to="/appointments">Appointments</MenuItem>
               <MenuItem dense onClick={() => setAnchorE1(null)}>Settings</MenuItem>
             </Menu>
           </>
