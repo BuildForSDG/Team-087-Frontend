@@ -17,11 +17,20 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
     <style type="text/css">
-        .alert { padding: 7px; border: 1pm solid grey; font-weight: bold; font-size: 12px; }
+        .alert { padding: 7px; border: 1pm solid grey; font-weight: bold; font-size: 12px; margin-bottom: 2px; }
         .alert .full-length { display: block; min-width: 53vh; }
         .alert-success { background-color: aquamarine; }
         .alert-error { background-color: rgb(240, 94, 75); }
         .loading { background-color: rgba(8, 52, 119, 0.603); color: azure; display: block; }
+
+        /* https://alligator.io/css/css-scrollbars/ */
+        /* The emerging W3C standard that is currently Firefox-only */
+        * { scrollbar-width: thin; scrollbar-color: blue orange; }
+
+        /* Works on Chrome/Edge/Safari */
+        *::-webkit-scrollbar {  width: 7px; }
+        /* *::-webkit-scrollbar-track { background: orange; } */
+        *::-webkit-scrollbar-thumb { background-color: gray; /* border-radius: 10px; border: 3px solid orange; */ }
     </style>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
