@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid, Paper, Typography, LinearProgress, Divider, TableContainer, Table,
-  TableRow, TableHead, TableCell, TableBody, TablePagination, Button, Chip, Link
+  TableRow, TableHead, TableCell, TableBody, TablePagination, Chip, Link, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
@@ -22,10 +22,10 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     marginBottom: '20px'
   },
-  form: {
+  /* form: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
-  },
+  }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -48,18 +48,23 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
   title: {
     fontWeight: 'bolder',
     // marginTop: theme.spacing(3),
     // color: '#0c0032',
     flexGrow: 1,
   },
-  text_white: {
+  /* text_white: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  },
-  text_muted: {
+  }, */
+  textMuted: {
     color: 'grey',
   },
   table: {
@@ -133,16 +138,12 @@ const Appointment = () => {
           <Typography variant="h5">
             Appointments
           </Typography>
-          <small className={classes.text_muted}>
+          <small className={classes.textMuted}>
             List of scheduled/booked appointments
           </small>
 
           <br />
           <br />
-          <Button className={classes.submitSmall} type="reset" color="secondary" variant="contained" margin="normal">
-            <BookOutlined titleAccess="register" />
-          </Button>
-
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
@@ -185,6 +186,10 @@ const Appointment = () => {
                 onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} /> : ''}
             </>
           )}
+
+          <Fab color="secondary" className={classes.fab}>
+            <BookOutlined titleAccess="Book Appointment" />
+          </Fab>
         </Grid>
       </Grid>
     </>

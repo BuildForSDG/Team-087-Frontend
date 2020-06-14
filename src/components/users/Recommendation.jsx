@@ -44,9 +44,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#0c0032',
     color: '#ffffff',
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
   title: {
     fontWeight: 'bolder',
     // marginTop: theme.spacing(3),
@@ -75,9 +72,6 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1,
-  },
-  table: {
-    minWidth: 650,
   }
 }));
 
@@ -162,7 +156,7 @@ const Recommedation = () => {
                           />
                           <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h2">
-                              {user.last_name} <strong>{user.first_name}</strong>
+                              {user.first_name} <strong>{user.last_name}</strong>
                             </Typography>
                             <Typography>
                               MD

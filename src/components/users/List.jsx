@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Button, Grid, Paper, Typography, TableContainer, Table, TableHead,
-  TableRow, TableCell, TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination
+  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell, 
+  TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, Add } from '@material-ui/icons';
@@ -54,12 +54,17 @@ const useStyles = makeStyles(theme => ({
     // color: '#0c0032',
     flexGrow: 1,
   },
-  text_white: {
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  /* text_white: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  },
-  text_muted: {
+  }, */
+  textMuted: {
     color: 'grey',
   },
   table: {
@@ -128,71 +133,69 @@ const UsersList = () => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg>
-          <Paper className={classes.paper}>
-            <Typography variant="h5">
-              Users
-            </Typography>
-            <small className={classes.text_muted}>
-              List of Platform Users
-            </small>
+        <Grid item className={classes.paper} xs={12} lg>
+          <Typography variant="h5">
+            Users
+          </Typography>
+          <small className={classes.textMuted}>
+            List of Platform Users
+          </small>
 
-            <br />
-            <br />
-            <Button className={classes.submitSmall} type="reset" color="secondary" variant="contained" margin="normal">
-              <Add titleAccess="register" />
-            </Button>
+          <br />
+          <br />
+          {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+          <Divider />
 
-            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-            <Divider />
-
-            {isCalling ? (
-              <>
-                <div className='message alert full-length loading'>Loading Users...</div>
-                <LinearProgress />
-              </>
-            ) : (
-              <>
-                <TableContainer component={Paper}>
-                  <Table stickyHeader className={classes.table} aria-label="users table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell><strong>Last Name</strong></TableCell>
-                        <TableCell><strong>First Name</strong></TableCell>
-                        <TableCell><strong>Gender</strong></TableCell>
-                        <TableCell align="center"><strong>Category</strong></TableCell>
-                        <TableCell colSpan="2">&nbsp;</TableCell>
+          {isCalling ? (
+            <>
+              <div className='message alert full-length loading'>Loading Users...</div>
+              <LinearProgress />
+            </>
+          ) : (
+            <>
+              <TableContainer component={Paper}>
+                <Table stickyHeader className={classes.table} size="small" aria-label="users table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell><strong>Last Name</strong></TableCell>
+                      <TableCell><strong>First Name</strong></TableCell>
+                      <TableCell><strong>Gender</strong></TableCell>
+                      <TableCell align="center"><strong>Category</strong></TableCell>
+                      <TableCell colSpan="2">&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users.map(user => (
+                      <TableRow key={user.id} hover>
+                        <TableCell component="th" scope="row">{user.last_name}</TableCell>
+                        <TableCell>{user.first_name}</TableCell>
+                        <TableCell>{user.gender}</TableCell>
+                        <TableCell align="center">
+                          <Chip
+                            label={user.is_patient ? 'Patient' : (user.specialist ? 'Specialist' : 'Administrator')}
+                            color="secondary" style={{ alignItems: 'center' }} />
+                        </TableCell>
+                        <TableCell align="left">
+                          <FormControlLabel
+                            control={<Switch checked={user.is_active} size="small" aria-label={user.is_active ? 'active' : 'inactive'} />}
+                            label={user.is_active ? 'active' : 'inactive'} />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Chip icon={<Face />} label="View" component={RouterLink} to={`/users/${user.id}`} clickable />
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {users.map(user => (
-                        <TableRow key={user.id} hover>
-                          <TableCell component="th" scope="row">{user.last_name}</TableCell>
-                          <TableCell>{user.first_name}</TableCell>
-                          <TableCell>{user.gender}</TableCell>
-                          <TableCell align="center">
-                            <Chip
-                              label={user.is_patient ? 'Patient' : (user.specialist ? 'Specialist' : 'Administrator')}
-                              color="secondary" style={{ alignItems: 'center' }} />
-                          </TableCell>
-                          <TableCell align="left">
-                            <FormControlLabel
-                              control={<Switch checked={user.is_active} size="small" aria-label={user.is_active ? 'active' : 'inactive'} />}
-                              label={user.is_active ? 'active' : 'inactive'} />
-                          </TableCell>
-                          <TableCell align="center">
-                            <Chip icon={<Face />} label="View" component={RouterLink} to={`/users/${user.id}`} clickable />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination rowsPerPage={rowsPerPage} component="div" count={total} page={page}
-                  onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
-              </>
-            )}
-          </Paper>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination rowsPerPage={rowsPerPage} component="div" count={total} page={page}
+                onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
+            </>
+          )}
+
+          <Fab color="secondary" className={classes.fab}>
+            <Add titleAccess="Add User" />
+          </Fab>
         </Grid>
       </Grid>
     </>
