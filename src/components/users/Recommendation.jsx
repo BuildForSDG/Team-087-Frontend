@@ -89,16 +89,6 @@ const Recommedation = () => {
 
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    //effect
-    fetchSpecialists()
-
-    return () => {
-      //cleanup
-      setUsers([]);
-    }
-  }, []);
-
   const fetchSpecialists = async () => {
     setIsCalling(true);
     setErrorFeedBack('');
@@ -122,6 +112,16 @@ const Recommedation = () => {
 
     setIsCalling(false);
   };
+
+  useEffect(() => {
+    //effect
+    fetchSpecialists()
+
+    return () => {
+      //cleanup
+      setUsers([]);
+    }
+  }, []);
 
 
   return (
@@ -152,12 +152,12 @@ const Recommedation = () => {
               <>
                 <Container className={classes.cardGrid} maxWidth="md">
                   <Grid container spacing={4}>
-                    {users.map((user) => (
+                    {users && users.map((user) => (
                       <Grid item key={user.id} xs={12} sm={4} md={4}>
                         <Card className={classes.card}>
                           <CardMedia
                             className={classes.cardMedia}
-                            image={user.photo || `https://source.unsplash.com/random`}
+                            image={user.photo || `https://source.unsplash.com/random?doctor,specialist,psychiatrist,psychologist`}
                             title="Image title"
                           />
                           <CardContent className={classes.cardContent}>
@@ -172,9 +172,6 @@ const Recommedation = () => {
                             <Button size="small" color="primary">
                               <Chip icon={<Face />} label="View" color="secondary" component={RouterLink} to={`/users/${user.id}`} clickable />
                             </Button>
-                            {/* <Button size="small" color="primary">
-                              Edit
-                            </Button> */}
                           </CardActions>
                         </Card>
                       </Grid>
