@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Paper, Typography, LinearProgress, CardMedia, Card, CardContent, Container, 
+import {
+  Grid, Typography, LinearProgress, CardMedia, Card, CardContent, Container, 
   Button, CardActions, Divider, Chip 
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,8 +60,8 @@ const useStyles = makeStyles(theme => ({
     color: 'grey',
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
   },
   card: {
     height: '100%',
@@ -123,58 +124,56 @@ const Recommedation = () => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg>
-          <Paper className={classes.paper}>
-            <Typography variant="h5">
-              Neighbourhood Specialists
-            </Typography>
-            <small className={classes.text_muted}>
-              List of Mental-Health Specialists around you
-            </small>
+        <Grid item className={classes.paper} xs={12} lg>
+          <Typography variant="h5">
+            Neighbourhood Specialists
+          </Typography>
+          <small className={classes.text_muted}>
+            List of Mental-Health Specialists around you
+          </small>
 
-            <br />
-            <br />
-            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-            <Divider />
+          <br />
+          <br />
+          {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+          <Divider />
 
-            {isCalling ? (
-              <>
-                <div className='message alert full-length loading'>Loading nearby mental-health specialists...</div>
-                <LinearProgress />
-              </>
-            ) : (
-              <>
-                <Container className={classes.cardGrid} maxWidth="md">
-                  <Grid container spacing={4}>
-                    {users && users.map((user) => (
-                      <Grid item key={user.id} xs={12} sm={4} md={4}>
-                        <Card className={classes.card}>
-                          <CardMedia
-                            className={classes.cardMedia}
-                            image={user.photo || `https://source.unsplash.com/random?doctor,specialist,psychiatrist,psychologist`}
-                            title="Image title"
-                          />
-                          <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                              {user.first_name} <strong>{user.last_name}</strong>
-                            </Typography>
-                            <Typography>
-                              MD
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Button size="small" color="primary">
-                              <Chip icon={<Face />} label="View" color="secondary" component={RouterLink} to={`/users/${user.id}`} clickable />
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Container>
-              </>
-            )}
-          </Paper>
+          {isCalling ? (
+            <>
+              <div className='message alert full-length loading'>Loading nearby mental-health specialists...</div>
+              <LinearProgress />
+            </>
+          ) : (
+            <>
+              <Container className={classes.cardGrid} maxWidth="md">
+                <Grid container spacing={3}>
+                  {users && users.map((user) => (
+                    <Grid item key={user.id} xs={12} sm={4} md={4}>
+                      <Card className={classes.card}>
+                        <CardMedia
+                          className={classes.cardMedia}
+                          image={user.photo || `https://source.unsplash.com/random?doctor,specialist,psychiatrist,psychologist`}
+                          title="Image title"
+                        />
+                        <CardContent className={classes.cardContent}>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {user.first_name} <strong>{user.last_name}</strong>
+                          </Typography>
+                          <Typography>
+                            MD
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small" color="primary">
+                            <Chip icon={<Face />} label="View" color="secondary" component={RouterLink} to={`/users/${user.id}`} clickable />
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Container>
+            </>
+          )}
         </Grid>
       </Grid>
     </>
