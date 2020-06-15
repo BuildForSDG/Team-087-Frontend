@@ -11,6 +11,7 @@ import Recommedation from './components/users/Recommendation';
 import { isLoggedIn } from './helpers';
 import Verify from './components/auth/Verify';
 import Appointment from './components/users/Appointment';
+import Profile from './components/users/Profile';
 
 /**
  *
@@ -43,6 +44,8 @@ function App () {
           <Route exact path="/join" component={Signup} />
           <Route exact path="/verify" component={Verify} />
           <PrivateRoute exact path="/users" component={UsersList} />
+          <PrivateRoute exact path="/users/:id" component={Profile} />
+          <PrivateRoute exact path="/profile/:id?" component={Profile} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
