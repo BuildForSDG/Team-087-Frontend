@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { Button, Grid, Link, Paper, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { endPoints, fetchBot, registerAuth, isLoggedIn } from '../../helpers';
+import { endPoints, fetchBot, registerAuth } from '../../helpers';
 import Header from '../Header';
 
 const useStyles = makeStyles(theme => ({
@@ -61,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Login = (props) => {
+const Login = () => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -72,9 +71,7 @@ const Login = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setIsCalling(true);
-    setErrorFeedBack('');
 
     const options = {
       method: 'POST',
@@ -89,16 +86,13 @@ const Login = (props) => {
       const { access_token: token, data: user } = await fetchBot(`${endPoints.signIn}`, options);
       const done = registerAuth({ token, firstName: user.first_name, user });
       if (done) window.location = '/dashboard';
+      return;
     } catch (err) {
       setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
     }
 
     setIsCalling(false);
   };
-
-  if (isLoggedIn) {
-    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
-  }
 
   return (
     <div>
@@ -170,7 +164,7 @@ const Login = (props) => {
                 {isCalling ? <CircularProgress color="secondary" /> : `Log In`}
               </Button>
               <small><Link>Forgot password?</Link></small><br />
-              <small>First-Time User? <Link component={RouterLink} to="/join">Sign Up</Link></small>
+              <small>First-Time User? <Link href="/join">Sign Up</Link></small>
             </form>
           </Paper>
         </Grid>

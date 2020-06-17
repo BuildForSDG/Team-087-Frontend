@@ -70,7 +70,6 @@ export const endPoints = {
   users: {
     uri: `${url}/users`,
     paths: {
-      recommendations: '/recommendations',
       appointments: '/appointments',
       reviews: '/reviews',
       chats: '/chats',

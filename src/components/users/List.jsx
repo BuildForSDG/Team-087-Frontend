@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell, 
-  TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
+  Button, Grid, Paper, Typography, TableContainer, Table, TableHead,
+  TableRow, TableCell, TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, Add } from '@material-ui/icons';
@@ -54,17 +53,12 @@ const useStyles = makeStyles(theme => ({
     // color: '#0c0032',
     flexGrow: 1,
   },
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-  /* text_white: {
+  text_white: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  }, */
-  textMuted: {
+  },
+  text_muted: {
     color: 'grey',
   },
   table: {
@@ -74,19 +68,23 @@ const useStyles = makeStyles(theme => ({
 
 const UsersList = () => {
   const classes = useStyles();
-
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  
   const [users, setUsers] = useState([]);
-  const [total, setTotal] = useState(0);
 
-  const fetchUsers = async (page, rowsPerPage) => {
+  useEffect(() => {
+    //effect
+    fetchUsers()
+
+    return () => {
+      //cleanup
+      setUsers([]);
+    }
+  }, []);
+
+  const fetchUsers = async () => {
     setIsCalling(true);
-    setErrorFeedBack('');
 
     const options = {
       method: 'GET',
@@ -98,33 +96,13 @@ const UsersList = () => {
     };
 
     try {
-      const { data: { data: users, current_page, total } } = await fetchBot(`${endPoints.users.uri}?chunk=${rowsPerPage}&page=${page + 1}`, options);
-
+      const { data: { data: users } } = await fetchBot(`${endPoints.users.uri}`, options);
       setUsers(users);
-      setPage(current_page - 1);
-      setTotal(total);
     } catch (err) {
       setErrorFeedBack(err.message);
     }
 
     setIsCalling(false);
-  };
-
-  useEffect(() => {
-    //effect
-    fetchUsers(page, rowsPerPage)
-
-    return () => {
-      //cleanup
-      setUsers([]);
-    }
-  }, [rowsPerPage, page]);
-
-  const handleChangePage = (e, newPage) => setPage(newPage);
-
-  const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(++e.target.value);
-    setPage(0);
   };
 
 
@@ -133,34 +111,38 @@ const UsersList = () => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            Users
-          </Typography>
-          <small className={classes.textMuted}>
-            List of Platform Users
-          </small>
+        <Grid item xs={12} lg>
+          <Paper className={classes.paper}>
+            <Typography variant="h5">
+              Users
+            </Typography>
+            <small className={classes.text_muted}>
+              List of Platform Users
+            </small>
 
-          <br />
-          <br />
-          {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-          <Divider />
+            <br />
+            <br />
+            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading Users...</div>
-              <LinearProgress />
-            </>
-          ) : (
-            <>
+            <Button className={classes.submitSmall} type="reset" color="secondary" variant="contained" margin="normal">
+              <Add titleAccess="register" />
+            </Button>
+            <Divider />
+
+            {isCalling ? (
+              <>
+                <div className='message alert full-length loading'>Loading Users...</div>
+                <LinearProgress />
+              </>
+            ) : (
               <TableContainer component={Paper}>
-                <Table stickyHeader className={classes.table} size="small" aria-label="users table">
+                <Table className={classes.table} aria-label="users table">
                   <TableHead>
                     <TableRow>
-                      <TableCell><strong>Last Name</strong></TableCell>
-                      <TableCell><strong>First Name</strong></TableCell>
-                      <TableCell><strong>Gender</strong></TableCell>
-                      <TableCell align="center"><strong>Category</strong></TableCell>
+                      <TableCell>Last Name</TableCell>
+                      <TableCell>First Name</TableCell>
+                      <TableCell>Gender</TableCell>
+                      <TableCell align="center">Category</TableCell>
                       <TableCell colSpan="2">&nbsp;</TableCell>
                     </TableRow>
                   </TableHead>
@@ -175,27 +157,21 @@ const UsersList = () => {
                             label={user.is_patient ? 'Patient' : (user.specialist ? 'Specialist' : 'Administrator')}
                             color="secondary" style={{ alignItems: 'center' }} />
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="center">
                           <FormControlLabel
                             control={<Switch checked={user.is_active} size="small" aria-label={user.is_active ? 'active' : 'inactive'} />}
                             label={user.is_active ? 'active' : 'inactive'} />
                         </TableCell>
                         <TableCell align="center">
-                          <Chip icon={<Face />} label="View" component={RouterLink} to={`/users/${user.id}`} clickable />
+                          <Chip icon={<Face />} label="View" component="a" href={`/users/${user.id}`} clickable />
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TablePagination rowsPerPage={rowsPerPage} component="div" count={total} page={page}
-                onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
-            </>
-          )}
-
-          <Fab color="secondary" className={classes.fab}>
-            <Add titleAccess="Add User" />
-          </Fab>
+            )}
+          </Paper>
         </Grid>
       </Grid>
     </>
