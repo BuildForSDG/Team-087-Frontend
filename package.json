@@ -38,7 +38,13 @@
           2
       ],
       "quotes":"off",
-      "jsx-quotes":"off"
+      "jsx-quotes":"off",
+      "max-len": [
+        "error",
+        {
+          "code": 155
+        }
+      ]
     }
   },
   "browserslist": {
