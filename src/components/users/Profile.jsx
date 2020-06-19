@@ -45,17 +45,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Profile = (props) => {
+const Profile = ({ match }) => {
   const classes = useStyles();
 
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
-  const [userId] = useState(props.match.params.id || 'me');
+  const [userId] = useState(match.params.id || 'me');
   const [user, setUser] = useState(undefined);
 
   const fetchData = async (userId) => {
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -74,7 +74,7 @@ const Profile = (props) => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   useEffect(() => {

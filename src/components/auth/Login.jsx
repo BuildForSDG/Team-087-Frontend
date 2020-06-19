@@ -51,17 +51,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     color: '#0c0032'
   },
-  text_white: {
+  textWhite: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
   },
-  text_muted: {
+  textMuted: {
     color: 'grey',
   },
 }));
 
-const Login = (props) => {
+const Login = ({ location }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -73,7 +73,7 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -90,14 +90,14 @@ const Login = (props) => {
       const done = registerAuth({ token, firstName: user.first_name, user });
       if (done) window.location = '/dashboard';
     } catch (err) {
-      setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
+      setErrorFeedBack(`${err.message}: ${err.errors && err.errors.join(', ')}`);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
+    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />
   }
 
   return (
@@ -106,9 +106,14 @@ const Login = (props) => {
         <Header />
 
         <Grid item xs={12} lg={8} className={`${classes.bg}`}>
+          <Typography component="h3" variant="h4" className={classes.textWhite}>
+            <div style={{padding:'50px 20px'}}>
+              Looking for neighbourhood mental-health specialists to consult?
+            </div>
+          </Typography>
           {/* <Hidden xsDown>
             <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
-              <Link className={classes.text_white} href="/join">Sign Up</Link>
+              <Link className={classes.textWhite} href="/join">Sign Up</Link>
             </Button>
         </Hidden> */}
         </Grid>
@@ -124,7 +129,7 @@ const Login = (props) => {
             <Typography className={classes.title} component="h1" variant="h5">
               Log Into Your Account
             </Typography>
-            <small className={classes.text_muted}>
+            <small className={classes.textMuted}>
               Your Mental Health Is Important
             </small>
 

@@ -57,13 +57,13 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2),
   },
   /* text_white: {
-        color: 'white',
-        textDecoration: '0',
-        textTransform: 'none',
-      },
-      text_muted: {
-        color: 'grey',
-      }, */
+          color: 'white',
+          textDecoration: '0',
+          textTransform: 'none',
+        },
+        text_muted: {
+          color: 'grey',
+        }, */
   table: {
     minWidth: 650,
   }
@@ -82,14 +82,14 @@ const Review = ({ reviewsList = [] }) => {
   // const [total, setTotal] = useState(0);
 
   /* const handleChangePage = (e, newPage) => { setPage(newPage); }
-      
-        const handleChangeRowsPerPage = (e) => {
-          setRowsPerPage(++e.target.value);
-          setPage(0);
-        }; */
+        
+          const handleChangeRowsPerPage = (e) => {
+            setRowsPerPage(++e.target.value);
+            setPage(0);
+          }; */
 
   const fetchReviews = async (page, rowsPerPage) => {
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -103,7 +103,7 @@ const Review = ({ reviewsList = [] }) => {
 
     try {
       const reviewsEndpoint = `${endPoints.users.uri}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
-      const { data: { data: reviews, current_page/* , total */ } } = await fetchBot(reviewsEndpoint, options);
+      const { data: { data: reviews, current_page = 1/* , total */ } } = await fetchBot(reviewsEndpoint, options);
 
       setReviews(reviews);
       setPage(current_page - 1);
@@ -113,17 +113,15 @@ const Review = ({ reviewsList = [] }) => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
+    console.log(`fetching reviews...${page}, ${rowsPerPage}`)
     fetchReviews(page, rowsPerPage)
 
-    return () => {
-      //cleanup
-      setReviews([]);
-    }
+    return () => setReviews([]); //cleanup
   }, [rowsPerPage, page]);
 
 

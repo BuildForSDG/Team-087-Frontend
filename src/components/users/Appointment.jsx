@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '20px'
   },
   /* form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
-  }, */
+        padding: theme.spacing(3),
+        marginTop: theme.spacing(3),
+      }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -60,10 +60,10 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   /* text_white: {
-    color: 'white',
-    textDecoration: '0',
-    textTransform: 'none',
-  }, */
+        color: 'white',
+        textDecoration: '0',
+        textTransform: 'none',
+      }, */
   textMuted: {
     color: 'grey',
   },
@@ -92,7 +92,7 @@ const Appointment = () => {
   };
 
   const fetchAppointments = async (page, rowsPerPage) => {
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -115,17 +115,14 @@ const Appointment = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
     fetchAppointments(page, rowsPerPage)
 
-    return () => {
-      //cleanup
-      setAppointments([]);
-    }
+    return () => setAppointments([]);//cleanup
   }, [rowsPerPage, page]);
 
 
@@ -167,7 +164,7 @@ const Appointment = () => {
                       <TableRow key={appointment.id} hover>
                         <TableCell component="th" scope="row">
                           {appointment.purpose}
-                          <br/><br />
+                          <br /><br />
                           <Chip icon={<Bookmark color="secondary" />} label={appointment.status} color="secondary" size="small" />
                         </TableCell>
                         <TableCell align="center">&nbsp;</TableCell>

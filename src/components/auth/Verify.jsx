@@ -67,9 +67,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Verify = (props) => {
+const Verify = ({ location }) => {
   const classes = useStyles();
-  const { email = '', code = '' } = qs.parse(props.location.search.replace('?', ''));
+  const { email = '', code = '' } = qs.parse(location.search.replace('?', ''));
 
   const [isCalling, setIsCalling] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
@@ -114,7 +114,7 @@ const Verify = (props) => {
   }, [code, email])
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || { from: { pathname: '/dashboard' } }).from} />
+    return <Redirect to={(location.state || { from: { pathname: '/dashboard' } }).from} />
   }
 
   return (

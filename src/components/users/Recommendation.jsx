@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Typography, LinearProgress, CardMedia, Card, CardContent, Container, 
-  Button, CardActions, Divider, Chip 
+  Grid, Typography, LinearProgress, CardMedia, Card, CardContent, Container,
+  Button, CardActions, Divider, Chip
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
@@ -85,7 +85,7 @@ const Recommedation = () => {
   const [users, setUsers] = useState([]);
 
   const fetchSpecialists = async () => {
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -105,17 +105,14 @@ const Recommedation = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
     fetchSpecialists()
 
-    return () => {
-      //cleanup
-      setUsers([]);
-    }
+    return () => setUsers([]);//cleanup
   }, []);
 
 

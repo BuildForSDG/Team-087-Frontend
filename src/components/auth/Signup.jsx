@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignupPage = (props) => {
+const SignupPage = ({ location }) => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -81,7 +81,7 @@ const SignupPage = (props) => {
   const [gender, setGender] = useState('female');
   const [subscriberType, setSubscriberType] = useState('patient');
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [isCalling, setIsCalling] = useState(false);
   const [successFeedBack, setSuccessFeedBack] = useState('');
   const [errorFeedBack, setErrorFeedBack] = useState('');
   //   const [errorBag, setErrorBag] = useState([]);
@@ -89,7 +89,7 @@ const SignupPage = (props) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    setIsSaving(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setSuccessFeedBack('');
     setErrorFeedBack('');
 
@@ -127,11 +127,11 @@ const SignupPage = (props) => {
 
     setPassword('');
     setConfirmPassword('');
-    setIsSaving(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   }
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
+    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />
   }
 
   return (
@@ -177,7 +177,7 @@ const SignupPage = (props) => {
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
                   //   helperText="Enter Your Firstname"
-                  disabled={isSaving}
+                  disabled={isCalling}
                 />
                 <TextField
                   variant="outlined"
@@ -189,7 +189,7 @@ const SignupPage = (props) => {
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
                   //   helperText="Enter Your Lastname"
-                  disabled={isSaving}
+                  disabled={isCalling}
                 />
               </div>
 
@@ -218,7 +218,7 @@ const SignupPage = (props) => {
                 name="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                disabled={isSaving}
+                disabled={isCalling}
               />
               <div>
                 <TextField
@@ -231,7 +231,7 @@ const SignupPage = (props) => {
                   name="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  disabled={isSaving}
+                  disabled={isCalling}
                 />
                 <TextField
                   variant="outlined"
@@ -242,7 +242,7 @@ const SignupPage = (props) => {
                   name="confirmPassword"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
-                  disabled={isSaving}
+                  disabled={isCalling}
                 />
               </div>
 
@@ -255,9 +255,9 @@ const SignupPage = (props) => {
                 color="secondary"
                 margin="normal"
                 data-submit-btn="true"
-                disabled={isSaving}
+                disabled={isCalling}
               >
-                {isSaving ? <CircularProgress color="secondary" /> : `Submit`}
+                {isCalling ? <CircularProgress color="secondary" /> : `Submit`}
               </Button>
               <small className={classes.text_muted}>
                 Already have an account? <Link component={RouterLink} to="/login"> Login </Link>{' '}

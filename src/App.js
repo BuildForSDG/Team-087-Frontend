@@ -1,6 +1,6 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
@@ -25,13 +25,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-const THEME = createMuiTheme ({
+const THEME = createMuiTheme({
   typography: {
     fontFamily: "'Raleway', sans-serif",
   },
 });
 
-function App () {
+const App = () => {
   return (
     <MuiThemeProvider theme={THEME}>
       <Router>

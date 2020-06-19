@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell, 
+  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell,
   TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,10 +60,10 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2),
   },
   /* text_white: {
-    color: 'white',
-    textDecoration: '0',
-    textTransform: 'none',
-  }, */
+      color: 'white',
+      textDecoration: '0',
+      textTransform: 'none',
+    }, */
   textMuted: {
     color: 'grey',
   },
@@ -80,12 +80,12 @@ const UsersList = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState(0);
 
   const fetchUsers = async (page, rowsPerPage) => {
-    setIsCalling(true);
+    setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -107,17 +107,14 @@ const UsersList = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling(prevIsCalling => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
     fetchUsers(page, rowsPerPage)
 
-    return () => {
-      //cleanup
-      setUsers([]);
-    }
+    return () => setUsers([]); //cleanup
   }, [rowsPerPage, page]);
 
   const handleChangePage = (e, newPage) => setPage(newPage);
