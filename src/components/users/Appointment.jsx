@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '20px'
   },
   /* form: {
-        padding: theme.spacing(3),
-        marginTop: theme.spacing(3),
-      }, */
+          padding: theme.spacing(3),
+          marginTop: theme.spacing(3),
+        }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -72,8 +72,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Appointment = () => {
+const Appointment = ({ match }) => {
   const classes = useStyles();
+  const { id: userId } = match.params;
 
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
@@ -91,7 +92,7 @@ const Appointment = () => {
     setPage(0);
   };
 
-  const fetchAppointments = async (page, rowsPerPage) => {
+  const fetchAppointments = async (userId, page, rowsPerPage) => {
     setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
@@ -105,7 +106,8 @@ const Appointment = () => {
     };
 
     try {
-      const appointmentsEndpoint = `${endPoints.users.uri}${endPoints.users.paths.appointments}?chunk=${rowsPerPage}&page=${page + 1}`;
+      const pathVariable = userId ? `/${userId}` : '';
+      const appointmentsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.appointments}?chunk=${rowsPerPage}&page=${page + 1}`;
       const { data: appointments = [] } = await fetchBot(appointmentsEndpoint, options);
 
       setAppointments(appointments);
@@ -120,10 +122,10 @@ const Appointment = () => {
 
   useEffect(() => {
     //effect
-    fetchAppointments(page, rowsPerPage)
+    fetchAppointments(userId, page, rowsPerPage)
 
     return () => setAppointments([]);//cleanup
-  }, [rowsPerPage, page]);
+  }, [rowsPerPage, page, userId]);
 
 
   return (

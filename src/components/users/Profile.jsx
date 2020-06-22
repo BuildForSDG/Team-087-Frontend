@@ -47,11 +47,11 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = ({ match }) => {
   const classes = useStyles();
+  const { id: userId = 'me' } = match.params;
 
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
-  const [userId] = useState(match.params.id || 'me');
   const [user, setUser] = useState(undefined);
 
   const fetchData = async (userId) => {
@@ -131,7 +131,7 @@ const Profile = ({ match }) => {
                     </Card>
                   </Grid>
 
-                  <Review />
+                  <Review userId={userId} />
                 </>
               )}
             </>

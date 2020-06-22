@@ -56,20 +56,12 @@ const useStyles = makeStyles(theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-  /* text_white: {
-          color: 'white',
-          textDecoration: '0',
-          textTransform: 'none',
-        },
-        text_muted: {
-          color: 'grey',
-        }, */
   table: {
     minWidth: 650,
   }
 }));
 
-const Review = ({ reviewsList = [] }) => {
+const Review = ({ userId, reviewsList = [] }) => {
   const classes = useStyles();
 
   const [isCalling, setIsCalling] = useState(false);
@@ -82,13 +74,13 @@ const Review = ({ reviewsList = [] }) => {
   // const [total, setTotal] = useState(0);
 
   /* const handleChangePage = (e, newPage) => { setPage(newPage); }
-        
-          const handleChangeRowsPerPage = (e) => {
-            setRowsPerPage(++e.target.value);
-            setPage(0);
-          }; */
 
-  const fetchReviews = async (page, rowsPerPage) => {
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(++e.target.value);
+    setPage(0);
+  }; */
+
+  const fetchReviews = async (userId, page, rowsPerPage) => {
     setIsCalling(prevIsCalling => !prevIsCalling);
     setErrorFeedBack('');
 
@@ -102,8 +94,9 @@ const Review = ({ reviewsList = [] }) => {
     };
 
     try {
-      const reviewsEndpoint = `${endPoints.users.uri}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
-      const { data: { data: reviews, current_page = 1/* , total */ } } = await fetchBot(reviewsEndpoint, options);
+      const pathVariable = userId ? `/${userId}` : '';
+      const reviewsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
+      const { data: { data: reviews = [], current_page = 1/* , total */ } } = await fetchBot(reviewsEndpoint, options);
 
       setReviews(reviews);
       setPage(current_page - 1);
@@ -118,11 +111,10 @@ const Review = ({ reviewsList = [] }) => {
 
   useEffect(() => {
     //effect
-    console.log(`fetching reviews...${page}, ${rowsPerPage}`)
-    fetchReviews(page, rowsPerPage)
+    fetchReviews(userId, page, rowsPerPage)
 
     return () => setReviews([]); //cleanup
-  }, [rowsPerPage, page]);
+  }, [rowsPerPage, page, userId]);
 
 
   return (
