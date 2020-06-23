@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import {
-  Button, FormControlLabel, FormLabel, Grid,
+  Button, FormControlLabel, FormLabel, Grid, Hidden,
   Link, RadioGroup, Radio, TextField, Typography, CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
@@ -140,21 +140,19 @@ const SignupPage = ({ location }) => {
         <Header />
 
         <Grid item xs={12} lg={7} /* className={classes.bg} */>
-          {/* <Hidden xsDown>
-            <Button className={classes.squareBtn}>
-              <Link className={classes.textWhite} href="/login">Login</Link>
-            </Button>
-          </Hidden> */}
           <Typography component="h2" variant="h3">
-            <div style={{padding:'50px 20px'}}>
-              Looking for a neighbourhood mental-health specialist to consult? <br />
-              <Typography className={classes.title} component="h1" variant="h2">
-                Sign-up for a FREE account
-              </Typography>
-              <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
-                You've got patients | specialist-recommendations waiting! <br />
-              </small>
-            </div>
+            <Hidden xsDown>
+              <div style={{padding:'50px 20px'}}>
+                Looking for a neighbourhood mental-health specialist to consult?
+
+                <Typography className={classes.title} component="h1" variant="h2">
+                  Sign-up for a FREE account
+                </Typography>
+                <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
+                  You've got patients | specialist-recommendations waiting! <br />
+                </small>
+              </div>
+            </Hidden>
           </Typography>
         </Grid>
 
@@ -165,14 +163,15 @@ const SignupPage = ({ location }) => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
           <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
-            <div className={classes.pb}>
+            <div>
               <TextField
-                className={classes.pr}
+                // className={classes.pr}
                 variant="outlined"
                 type="text"
                 label="First Name"
                 margin="normal"
                 required
+                fullWidth
                 name="first_name"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
@@ -185,6 +184,7 @@ const SignupPage = ({ location }) => {
                 label="Last Name"
                 margin="normal"
                 required
+                fullWidth
                 name="last_name"
                 value={lastName}
                 onChange={e => setLastName(e.target.value)}
@@ -222,12 +222,13 @@ const SignupPage = ({ location }) => {
             />
             <div>
               <TextField
-                className={classes.pr}
+                // className={classes.pr}
                 variant="outlined"
                 label="Password"
                 type="password"
                 margin="normal"
                 required
+                fullWidth
                 name="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -239,6 +240,7 @@ const SignupPage = ({ location }) => {
                 label="Confirm Password"
                 margin="normal"
                 required
+                fullWidth
                 name="confirmPassword"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}

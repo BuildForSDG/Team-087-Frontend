@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
-import { Button, Grid, Link, TextField, Typography, CircularProgress } from '@material-ui/core';
+import { Button, Grid, Link, TextField, Typography, CircularProgress, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, registerAuth, isLoggedIn } from '../../helpers';
 import Header from '../Header';
@@ -106,23 +106,20 @@ const Login = ({ location }) => {
         <Header />
 
         <Grid item xs={12} lg={7} /* className={classes.bg} */>
-          <Typography component="h2" variant="h3">
-            <div style={{padding:'50px 20px'}}>
-              Looking for a neighbourhood mental-health specialist to consult?
+          <Hidden xsDown>
+            <Typography component="h2" variant="h3">
+              <div style={{padding:'50px 20px'}}>
+                Looking for a neighbourhood mental-health specialist to consult?
           
-              <Typography className={classes.title} component="h1" variant="h2">
-                Sign-in to your account
-              </Typography>
-              <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
-                Your mental health is important!
-              </small>
-            </div>
-          </Typography>
-          {/* <Hidden xsDown>
-            <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
-              <Link className={classes.textWhite} href="/join">Sign Up</Link>
-            </Button>
-        </Hidden> */}
+                <Typography className={classes.title} component="h1" variant="h2">
+                  Sign-in to your account
+                </Typography>
+                <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
+                  Your mental health is important!
+                </small>
+              </div>
+            </Typography>
+          </Hidden>
         </Grid>
 
         <Grid item className={classes.paper} xs={12} lg>
