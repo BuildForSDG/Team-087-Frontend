@@ -137,22 +137,21 @@ const Review = ({ userId, reviewsList = [] }) => {
             </>
           ) : (
             <>
-              {(reviews && reviews.map(review => {
-                console.log(review);
-
-                return (
-                  <List>
+              <List>
+                {(reviews && reviews.map(review => (
+                  <>
                     <ListItem alignItems="flex-start">
                       {/* <ListItemAvatar>
                         <Avatar alt="---" src="" />
                       </ListItemAvatar> */}
                       <ListItemIcon><CommentRounded color="secondary" /></ListItemIcon>
-                      <ListItemText primary="....." secondary={<></>} />
+                      <ListItemText primary="....." secondary={`${review.remark} (${review.rating})`} />
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                  </List>
+                  </>
                 )
-              }))}
+                ))}
+              </List>
             </>
           )}
 
