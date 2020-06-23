@@ -51,6 +51,6 @@ const App = () => {
       </Router>
     </MuiThemeProvider>
   );
-}
+};
 
 export default App;

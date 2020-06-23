@@ -132,7 +132,7 @@ const SignupPage = ({ location }) => {
   }
 
   if (isLoggedIn) {
-    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />
+    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />;
   }
 
   return (
