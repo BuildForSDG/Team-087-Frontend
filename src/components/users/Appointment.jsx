@@ -24,9 +24,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '20px'
   },
   /* form: {
-          padding: theme.spacing(3),
-          marginTop: theme.spacing(3),
-        }, */
+            padding: theme.spacing(3),
+            marginTop: theme.spacing(3),
+          }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -61,10 +61,10 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   /* text_white: {
-        color: 'white',
-        textDecoration: '0',
-        textTransform: 'none',
-      }, */
+          color: 'white',
+          textDecoration: '0',
+          textTransform: 'none',
+        }, */
   textMuted: {
     color: 'grey',
   },
@@ -109,11 +109,11 @@ const Appointment = ({ match }) => {
     try {
       const pathVariable = userId ? `/${userId}` : '';
       const appointmentsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.appointments}?chunk=${rowsPerPage}&page=${page + 1}`;
-      const { data: appointments = [] } = await fetchBot(appointmentsEndpoint, options);
+      const { data: { data: appointments, current_page: pageNo, total } } = await fetchBot(appointmentsEndpoint, options);
 
       setAppointments(appointments);
-      //setPage(current_page - 1);
-      setTotal(appointments.length);
+      setPage(pageNo - 1);
+      setTotal(total);
     } catch (err) {
       setErrorFeedBack(err.message);
     }
@@ -135,9 +135,7 @@ const Appointment = ({ match }) => {
         <Header />
 
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            Appointments
-          </Typography>
+          <Typography variant="h5">Appointments</Typography>
           <small className={classes.textMuted}>
             List of scheduled/booked appointments
           </small>

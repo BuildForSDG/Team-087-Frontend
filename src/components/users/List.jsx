@@ -133,9 +133,7 @@ const UsersList = () => {
         <Header />
 
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            Users
-          </Typography>
+          <Typography variant="h5">Users</Typography>
           <small className={classes.textMuted}>
             List of Platform Users
           </small>
