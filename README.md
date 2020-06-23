@@ -22,7 +22,7 @@ In the midst of a pandemic such as we have around the world today with the **`CO
 
 <!-- How would someone use what you have built, include URLs to the deployed app, service e.t.c when you have it setup -->
 
-This frontend project can be accessed via <https://mental-lyf.herokuapp.com>.
+This frontend project can be accessed via <https://mental-lyf.herokuapp.com> or <https://mental-ly.netlify.app>.
 <br><br>
 
 ## Setup
