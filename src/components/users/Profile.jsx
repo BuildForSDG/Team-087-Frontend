@@ -5,6 +5,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 import Review from './Review';
 
 const useStyles = makeStyles(theme => ({
@@ -140,6 +141,8 @@ const Profile = ({ match }) => {
           )}
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   )
 };

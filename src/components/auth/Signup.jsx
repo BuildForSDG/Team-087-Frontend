@@ -7,6 +7,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -135,7 +136,7 @@ const SignupPage = ({ location }) => {
   }
 
   return (
-    <div>
+    <>
       <Grid container componet="main" className={classes.root}>
         <Header />
 
@@ -267,7 +268,9 @@ const SignupPage = ({ location }) => {
           </form>
         </Grid>
       </Grid>
-    </div>
+
+      <Footer />
+    </>
   );
 };
 

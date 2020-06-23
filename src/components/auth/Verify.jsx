@@ -7,6 +7,7 @@ import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
 import Header from '../Header';
 import { useEffect } from 'react';
 import { VerifiedUser } from '@material-ui/icons';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -155,6 +156,8 @@ const Verify = ({ location }) => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 };

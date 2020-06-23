@@ -1,7 +1,8 @@
 import React from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -29,14 +30,14 @@ const DashBoard = () => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg>
-          <Paper className={classes.paper}>
-            <Typography variant="h5">
-              DashBoard
-            </Typography>
-          </Paper>
+        <Grid item className={classes.paper} xs={12} lg>
+          <Typography variant="h5">
+            DashBoard
+          </Typography>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -191,6 +192,8 @@ const Appointment = ({ match }) => {
           </Fab>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 };

@@ -4,6 +4,7 @@ import { Button, Grid, Link, TextField, Typography, CircularProgress, Hidden } f
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, registerAuth, isLoggedIn } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -101,7 +102,7 @@ const Login = ({ location }) => {
   }
 
   return (
-    <div>
+    <>
       <Grid container component="main" className={classes.root}>
         <Header />
 
@@ -174,7 +175,9 @@ const Login = ({ location }) => {
           </form>
         </Grid>
       </Grid>
-    </div>
+
+      <Footer />
+    </>
   );
 };
 

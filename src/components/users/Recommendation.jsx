@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Typography, LinearProgress, CardMedia, Card, CardContent, Container,
-  Button, CardActions, Divider, Chip
+  Grid, Typography, LinearProgress, CardMedia, Card, CardContent,
+  Button, CardActions, Divider, Chip, Box
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 import { Face } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
@@ -110,7 +111,7 @@ const Recommedation = () => {
 
   useEffect(() => {
     //effect
-    fetchSpecialists()
+    fetchSpecialists();
 
     return () => setUsers([]);//cleanup
   }, []);
@@ -141,10 +142,10 @@ const Recommedation = () => {
             </>
           ) : (
             <>
-              <Container className={classes.cardGrid} maxWidth="md">
+              <Box className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={3}>
                   {users && users.map((user) => (
-                    <Grid item key={user.id} xs={12} sm={4} md={4}>
+                    <Grid item key={user.id} xs={6} sm={4} md={2}>
                       <Card className={classes.card}>
                         <CardMedia
                           className={classes.cardMedia}
@@ -168,11 +169,13 @@ const Recommedation = () => {
                     </Grid>
                   ))}
                 </Grid>
-              </Container>
+              </Box>
             </>
           )}
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 }
