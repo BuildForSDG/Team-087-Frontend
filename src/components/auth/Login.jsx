@@ -108,7 +108,7 @@ const Login = ({ location }) => {
         <Grid item xs={12} lg={7} /* className={classes.bg} */>
           <Typography component="h2" variant="h3">
             <div style={{padding:'50px 20px'}}>
-              Looking for a neighbourhood mental-health specialists to consult?
+              Looking for a neighbourhood mental-health specialist to consult?
           
               <Typography className={classes.title} component="h1" variant="h2">
                 Sign-in to your account

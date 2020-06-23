@@ -147,7 +147,7 @@ const SignupPage = ({ location }) => {
           </Hidden> */}
           <Typography component="h2" variant="h3">
             <div style={{padding:'50px 20px'}}>
-              Looking for a neighbourhood mental-health specialists to consult? <br />
+              Looking for a neighbourhood mental-health specialist to consult? <br />
               <Typography className={classes.title} component="h1" variant="h2">
                 Sign-up for a FREE account
               </Typography>
