@@ -150,7 +150,7 @@ const Appointment = ({ match }) => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading appointments...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>

@@ -103,7 +103,7 @@ const Profile = ({ match }) => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading profile...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>

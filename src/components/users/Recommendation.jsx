@@ -138,7 +138,7 @@ const Recommedation = () => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading nearby mental-health specialists...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>

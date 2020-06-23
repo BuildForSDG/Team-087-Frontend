@@ -131,7 +131,7 @@ const Review = ({ userId, reviewsList = [] }) => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading reviews...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>

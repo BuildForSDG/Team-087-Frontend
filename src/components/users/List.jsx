@@ -148,7 +148,7 @@ const UsersList = () => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading Users...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>
