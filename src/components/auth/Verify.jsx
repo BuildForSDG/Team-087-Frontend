@@ -7,6 +7,7 @@ import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
 import Header from '../Header';
 import { useEffect } from 'react';
 import { VerifiedUser } from '@material-ui/icons';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,9 +68,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Verify = (props) => {
+const Verify = ({ location }) => {
   const classes = useStyles();
-  const { email = '', code = '' } = qs.parse(props.location.search.replace('?', ''));
+  const { email = '', code = '' } = qs.parse(location.search.replace('?', ''));
 
   const [isCalling, setIsCalling] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
@@ -114,7 +115,7 @@ const Verify = (props) => {
   }, [code, email])
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || { from: { pathname: '/dashboard' } }).from} />
+    return <Redirect to={(location.state || { from: { pathname: '/dashboard' } }).from} />;
   }
 
   return (
@@ -155,6 +156,8 @@ const Verify = (props) => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 };

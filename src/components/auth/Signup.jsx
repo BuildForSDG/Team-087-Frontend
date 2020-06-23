@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import {
-  Box, Button, FormControlLabel, FormLabel, Grid,
+  Button, FormControlLabel, FormLabel, Grid, Hidden,
   Link, RadioGroup, Radio, TextField, Typography, CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,13 +21,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     height: '100vh',
-    border: 0,
+    // border: 0,
   },
   title: {
     fontWeight: 'bolder',
     marginTop: theme.spacing(3),
   },
-  text_muted: {
+  textMuted: {
     color: 'grey',
   },
 
@@ -49,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     textTransform: 'none',
   },
-  text_white: {
+  textWhite: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
@@ -70,7 +71,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignupPage = (props) => {
+const SignupPage = ({ location }) => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState('');
@@ -81,7 +82,7 @@ const SignupPage = (props) => {
   const [gender, setGender] = useState('female');
   const [subscriberType, setSubscriberType] = useState('patient');
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [isCalling, setIsCalling] = useState(false);
   const [successFeedBack, setSuccessFeedBack] = useState('');
   const [errorFeedBack, setErrorFeedBack] = useState('');
   //   const [errorBag, setErrorBag] = useState([]);
@@ -89,7 +90,7 @@ const SignupPage = (props) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    setIsSaving(true);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setSuccessFeedBack('');
     setErrorFeedBack('');
 
@@ -127,146 +128,149 @@ const SignupPage = (props) => {
 
     setPassword('');
     setConfirmPassword('');
-    setIsSaving(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   }
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
+    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />;
   }
 
   return (
-    <div>
+    <>
       <Grid container componet="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg={7} className={classes.bg}>
-          {/* <Hidden xsDown>
-            <Button className={classes.squareBtn}>
-              <Link className={classes.text_white} href="/login">Login</Link>
-            </Button>
-          </Hidden> */}
+        <Grid item xs={12} lg={7} /* className={classes.bg} */>
+          <Typography component="h2" variant="h3">
+            <Hidden xsDown>
+              <div style={{padding:'50px 20px'}}>
+                Looking for a neighbourhood mental-health specialist to consult?
+
+                <Typography className={classes.title} component="h1" variant="h2">
+                  Sign-up for a FREE account
+                </Typography>
+                <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
+                  You've got patients | specialist-recommendations waiting! <br />
+                </small>
+              </div>
+            </Hidden>
+          </Typography>
         </Grid>
-        <Grid item xs={12} lg>
-          {/* <Hidden smUp>
-            <Button className={classes.hiddenBtn}>
-              <Link href="/login">Login</Link>
-            </Button>
-          </Hidden> */}
-          <Box className={classes.paper}>
-            <Typography className={classes.title} component="h1" variant="h5">
-              Create A Free Account
-            </Typography>
-            <small className={classes.text_muted} style={{display:"flex",alignItems: "center"}}>
-              You've got patients | specialists waiting! <br />
-              Sign-up &amp; Get Recommendations
-            </small><br />
 
-            {successFeedBack && <div className='message alert full-length alert-success'>{successFeedBack}</div>}
-            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
+        <Grid item className={classes.paper} xs={12} lg>
+          <br />
 
-            <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
-              <div className={classes.pb}>
-                <TextField
-                  className={classes.pr}
-                  variant="outlined"
-                  type="text"
-                  label="First Name"
-                  margin="normal"
-                  required
-                  name="first_name"
-                  value={firstName}
-                  onChange={e => setFirstName(e.target.value)}
-                  //   helperText="Enter Your Firstname"
-                  disabled={isSaving}
-                />
-                <TextField
-                  variant="outlined"
-                  type="text"
-                  label="Last Name"
-                  margin="normal"
-                  required
-                  name="last_name"
-                  value={lastName}
-                  onChange={e => setLastName(e.target.value)}
-                  //   helperText="Enter Your Lastname"
-                  disabled={isSaving}
-                />
-              </div>
+          {successFeedBack && <div className='message alert full-length alert-success'>{successFeedBack}</div>}
+          {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
-              <div className={classes.pb}>
-                <FormLabel component="legend">Gender:</FormLabel>
-                <RadioGroup aria-label="gender" name="gender" value={gender} row onChange={e => setGender(e.target.value)}>
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
-                  <FormControlLabel value="male" control={<Radio />} label="Male" />
-                </RadioGroup>
-              </div>
-
-              <div>
-                <FormLabel component="legend">Subscriber Type:</FormLabel>
-                <RadioGroup aria-label="subscriber_type" row value={subscriberType} onChange={e => setSubscriberType(e.target.value)}>
-                  <FormControlLabel value="patient" control={<Radio />} label="Patient" />
-                  <FormControlLabel value="specialist" control={<Radio />} label="Mental-Health Specialist" />
-                </RadioGroup>
-              </div>
-
+          <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
+            <div>
               <TextField
+                // className={classes.pr}
                 variant="outlined"
-                label="Email Address"
+                type="text"
+                label="First Name"
                 margin="normal"
                 required
                 fullWidth
-                name="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                disabled={isSaving}
+                name="first_name"
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+                //   helperText="Enter Your Firstname"
+                disabled={isCalling}
               />
-              <div>
-                <TextField
-                  className={classes.pr}
-                  variant="outlined"
-                  label="Password"
-                  type="password"
-                  margin="normal"
-                  required
-                  name="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  disabled={isSaving}
-                />
-                <TextField
-                  variant="outlined"
-                  type="password"
-                  label="Confirm Password"
-                  margin="normal"
-                  required
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  disabled={isSaving}
-                />
-              </div>
-
-              <Button
-                className={classes.submit}
-                type="submit"
-                size="large"
-                fullWidth
-                variant="contained"
-                color="secondary"
+              <TextField
+                variant="outlined"
+                type="text"
+                label="Last Name"
                 margin="normal"
-                data-submit-btn="true"
-                disabled={isSaving}
-              >
-                {isSaving ? <CircularProgress color="secondary" /> : `Submit`}
-              </Button>
-              <small className={classes.text_muted}>
-                Already have an account? <Link component={RouterLink} to="/login"> Login </Link>{' '}
-              </small>
-            </form>
-          </Box>
+                required
+                fullWidth
+                name="last_name"
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+                //   helperText="Enter Your Lastname"
+                disabled={isCalling}
+              />
+            </div>
+
+            <div className={classes.pb}>
+              <FormLabel component="legend">Gender:</FormLabel>
+              <RadioGroup aria-label="gender" name="gender" value={gender} row onChange={e => setGender(e.target.value)}>
+                <FormControlLabel value="female" control={<Radio />} label="Female" />
+                <FormControlLabel value="male" control={<Radio />} label="Male" />
+              </RadioGroup>
+            </div>
+
+            <div>
+              <FormLabel component="legend">Subscriber Type:</FormLabel>
+              <RadioGroup aria-label="subscriber_type" row value={subscriberType} onChange={e => setSubscriberType(e.target.value)}>
+                <FormControlLabel value="patient" control={<Radio />} label="Patient" />
+                <FormControlLabel value="specialist" control={<Radio />} label="Mental-Health Specialist" />
+              </RadioGroup>
+            </div>
+
+            <TextField
+              variant="outlined"
+              label="Email Address"
+              margin="normal"
+              required
+              fullWidth
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              disabled={isCalling}
+            />
+            <div>
+              <TextField
+                // className={classes.pr}
+                variant="outlined"
+                label="Password"
+                type="password"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                disabled={isCalling}
+              />
+              <TextField
+                variant="outlined"
+                type="password"
+                label="Confirm Password"
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                disabled={isCalling}
+              />
+            </div>
+
+            <Button
+              className={classes.submit}
+              type="submit"
+              size="large"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              margin="normal"
+              data-submit-btn="true"
+              disabled={isCalling}
+            >
+              {isCalling ? <CircularProgress color="secondary" /> : `Submit`}
+            </Button>
+            <small className={classes.textMuted}>
+              Already have an account? <Link component={RouterLink} to="/login"> Login </Link>{' '}
+            </small>
+          </form>
         </Grid>
       </Grid>
-    </div>
+
+      <Footer />
+    </>
   );
 };
 

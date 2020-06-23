@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Typography, LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon
+  LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddComment, CommentRounded } from '@material-ui/icons';
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     marginBottom: '20px'
   },
-  form: {
+  /* form: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
   },
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '0.9em',
     textTransform: 'none',
     width: '30px'
-  },
+  }, */
   bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
@@ -56,20 +56,12 @@ const useStyles = makeStyles(theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-  /* text_white: {
-        color: 'white',
-        textDecoration: '0',
-        textTransform: 'none',
-      },
-      text_muted: {
-        color: 'grey',
-      }, */
   table: {
     minWidth: 650,
   }
 }));
 
-const Review = ({ reviewsList = [] }) => {
+const Review = ({ userId, reviewsList = [] }) => {
   const classes = useStyles();
 
   const [isCalling, setIsCalling] = useState(false);
@@ -79,17 +71,17 @@ const Review = ({ reviewsList = [] }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [reviews, setReviews] = useState(reviewsList);
-  // const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   /* const handleChangePage = (e, newPage) => { setPage(newPage); }
-      
-        const handleChangeRowsPerPage = (e) => {
-          setRowsPerPage(++e.target.value);
-          setPage(0);
-        }; */
+  
+    const handleChangeRowsPerPage = (e) => {
+      setRowsPerPage(++e.target.value);
+      setPage(0);
+    }; */
 
-  const fetchReviews = async (page, rowsPerPage) => {
-    setIsCalling(true);
+  const fetchReviews = async (userId, page, rowsPerPage) => {
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -102,38 +94,34 @@ const Review = ({ reviewsList = [] }) => {
     };
 
     try {
-      const reviewsEndpoint = `${endPoints.users.uri}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
-      const { data: { data: reviews, current_page/* , total */ } } = await fetchBot(reviewsEndpoint, options);
+      const pathVariable = userId ? `/${userId}` : '';
+      const reviewsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
+      const { data: { data: reviews = [], current_page: pageNo = 1, total } } = await fetchBot(reviewsEndpoint, options);
 
       setReviews(reviews);
-      setPage(current_page - 1);
+      setPage(pageNo - 1);
       setRowsPerPage(rowsPerPage);// to-be-removed
-      // setTotal(total);
+      setTotal(total);
     } catch (err) {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchReviews(page, rowsPerPage)
+    fetchReviews(userId, page, rowsPerPage);
 
-    return () => {
-      //cleanup
-      setReviews([]);
-    }
-  }, [rowsPerPage, page]);
+    return () => setReviews([]); //cleanup
+  }, [rowsPerPage, page, userId]);
 
 
   return (
     <>
       <Grid container component="main" className={classes.root}>
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="body2">
-            Reviews
-          </Typography>
+          {/* <Typography variant="body2">Reviews</Typography> */}
 
           <br />
           <br />
@@ -143,26 +131,25 @@ const Review = ({ reviewsList = [] }) => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading reviews...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>
-              {(reviews && reviews.map(review => {
-                console.log(review);
-
-                return (
-                  <List>
+              {total > 0 ? <List>
+                {(reviews && reviews.map((review) => (
+                  <>
                     <ListItem alignItems="flex-start">
                       {/* <ListItemAvatar>
                         <Avatar alt="---" src="" />
                       </ListItemAvatar> */}
                       <ListItemIcon><CommentRounded color="secondary" /></ListItemIcon>
-                      <ListItemText primary="....." secondary={<></>} />
+                      <ListItemText primary="....." secondary={`${review.remark} (${review.rating})`} />
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                  </List>
+                  </>
                 )
-              }))}
+                ))}
+              </List> : <span style={{display:'block', padding:'10px'}}>There are no reviews for this profile.</span>}
             </>
           )}
 

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +24,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '20px'
   },
   /* form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
-  }, */
+          padding: theme.spacing(3),
+          marginTop: theme.spacing(3),
+        }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -60,10 +61,10 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   /* text_white: {
-    color: 'white',
-    textDecoration: '0',
-    textTransform: 'none',
-  }, */
+        color: 'white',
+        textDecoration: '0',
+        textTransform: 'none',
+      }, */
   textMuted: {
     color: 'grey',
   },
@@ -72,8 +73,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Appointment = () => {
+const Appointment = ({ match }) => {
   const classes = useStyles();
+  const { id: userId } = match.params;
 
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
@@ -91,8 +93,8 @@ const Appointment = () => {
     setPage(0);
   };
 
-  const fetchAppointments = async (page, rowsPerPage) => {
-    setIsCalling(true);
+  const fetchAppointments = async (userId, page, rowsPerPage) => {
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -105,7 +107,8 @@ const Appointment = () => {
     };
 
     try {
-      const appointmentsEndpoint = `${endPoints.users.uri}${endPoints.users.paths.appointments}?chunk=${rowsPerPage}&page=${page + 1}`;
+      const pathVariable = userId ? `/${userId}` : '';
+      const appointmentsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.appointments}?chunk=${rowsPerPage}&page=${page + 1}`;
       const { data: appointments = [] } = await fetchBot(appointmentsEndpoint, options);
 
       setAppointments(appointments);
@@ -115,18 +118,15 @@ const Appointment = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchAppointments(page, rowsPerPage)
+    fetchAppointments(userId, page, rowsPerPage);
 
-    return () => {
-      //cleanup
-      setAppointments([]);
-    }
-  }, [rowsPerPage, page]);
+    return () => setAppointments([]);//cleanup
+  }, [rowsPerPage, page, userId]);
 
 
   return (
@@ -150,7 +150,7 @@ const Appointment = () => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading appointments...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>
@@ -167,7 +167,7 @@ const Appointment = () => {
                       <TableRow key={appointment.id} hover>
                         <TableCell component="th" scope="row">
                           {appointment.purpose}
-                          <br/><br />
+                          <br /><br />
                           <Chip icon={<Bookmark color="secondary" />} label={appointment.status} color="secondary" size="small" />
                         </TableCell>
                         <TableCell align="center">&nbsp;</TableCell>
@@ -192,6 +192,8 @@ const Appointment = () => {
           </Fab>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 };

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell, 
+  Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell,
   TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, Add } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,10 +61,10 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2),
   },
   /* text_white: {
-    color: 'white',
-    textDecoration: '0',
-    textTransform: 'none',
-  }, */
+      color: 'white',
+      textDecoration: '0',
+      textTransform: 'none',
+    }, */
   textMuted: {
     color: 'grey',
   },
@@ -80,12 +81,12 @@ const UsersList = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState(0);
 
   const fetchUsers = async (page, rowsPerPage) => {
-    setIsCalling(true);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -98,26 +99,24 @@ const UsersList = () => {
     };
 
     try {
-      const { data: { data: users, current_page, total } } = await fetchBot(`${endPoints.users.uri}?chunk=${rowsPerPage}&page=${page + 1}`, options);
+      const usersEndpoint = `${endPoints.users.uri}?chunk=${rowsPerPage}&page=${page + 1}`;
+      const { data: { data: users, current_page: pageNo, total } } = await fetchBot(usersEndpoint, options);
 
       setUsers(users);
-      setPage(current_page - 1);
+      setPage(pageNo - 1);
       setTotal(total);
     } catch (err) {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchUsers(page, rowsPerPage)
+    fetchUsers(page, rowsPerPage);
 
-    return () => {
-      //cleanup
-      setUsers([]);
-    }
+    return () => setUsers([]); //cleanup
   }, [rowsPerPage, page]);
 
   const handleChangePage = (e, newPage) => setPage(newPage);
@@ -149,7 +148,7 @@ const UsersList = () => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading Users...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>
@@ -198,6 +197,8 @@ const UsersList = () => {
           </Fab>
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   );
 }

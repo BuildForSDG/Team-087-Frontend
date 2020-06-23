@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
-import { Button, Grid, Link, Paper, TextField, Typography, CircularProgress } from '@material-ui/core';
+import { Button, Grid, Link, TextField, Typography, CircularProgress, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, registerAuth, isLoggedIn } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,17 +52,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     color: '#0c0032'
   },
-  text_white: {
+  textWhite: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
   },
-  text_muted: {
+  textMuted: {
     color: 'grey',
   },
 }));
 
-const Login = (props) => {
+const Login = ({ location }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -73,7 +74,7 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsCalling(true);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -90,92 +91,93 @@ const Login = (props) => {
       const done = registerAuth({ token, firstName: user.first_name, user });
       if (done) window.location = '/dashboard';
     } catch (err) {
-      setErrorFeedBack(`${err.message}: ${err.errors.join(', ')}`);
+      setErrorFeedBack(`${err.message}: ${err.errors && err.errors.join(', ')}`);
     }
 
-    setIsCalling(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   if (isLoggedIn) {
-    return <Redirect to={(props.location.state || {from: {pathname: '/dashboard'}}).from} />
+    return <Redirect to={(location.state || {from: {pathname: '/dashboard'}}).from} />;
   }
 
   return (
-    <div>
+    <>
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg={8} className={`${classes.bg}`}>
-          {/* <Hidden xsDown>
-            <Button className={classes.squareBtn} id="hidden-sign-up-btn-1">
-              <Link className={classes.text_white} href="/join">Sign Up</Link>
-            </Button>
-        </Hidden> */}
+        <Grid item xs={12} lg={7} /* className={classes.bg} */>
+          <Hidden xsDown>
+            <Typography component="h2" variant="h3">
+              <div style={{padding:'50px 20px'}}>
+                Looking for a neighbourhood mental-health specialist to consult?
+          
+                <Typography className={classes.title} component="h1" variant="h2">
+                  Sign-in to your account
+                </Typography>
+                <small className={classes.textMuted} style={{display:"flex", fontSize:'16px', marginTop:'16px', alignItems: "center"}}>
+                  Your mental health is important!
+                </small>
+              </div>
+            </Typography>
+          </Hidden>
         </Grid>
 
-        <Grid item xs={12} lg>
+        <Grid item className={classes.paper} xs={12} lg>
           {/* <Hidden smUp>
             <Button className={classes.hiddenBtn} d="hidden-sign-up-btn-2">
               <Link href="/join">Sign Up</Link>
             </Button>
           </Hidden> */}
+          <br/>
+          <br/>
+          {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
-          <Paper className={classes.paper}>
-            <Typography className={classes.title} component="h1" variant="h5">
-              Log Into Your Account
-            </Typography>
-            <small className={classes.text_muted}>
-              Your Mental Health Is Important
-            </small>
-
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              label="E-mail Address or Username"
+              margin="normal"
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              fullWidth
+              data-testid="email"
+            />
+            <TextField
+              variant="outlined"
+              type="password"
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              label="Password"
+              margin="normal"
+              required
+              fullWidth
+            />
             <br/>
-            <br/>
-            {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                variant="outlined"
-                label="Email or Username"
-                margin="normal"
-                name="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                fullWidth
-                data-testid="email"
-              />
-              <TextField
-                variant="outlined"
-                type="password"
-                name="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                label="Password"
-                margin="normal"
-                required
-                fullWidth
-              />
-              <br/>
-              <Button
-                className={classes.submit}
-                type="submit"
-                id="login_btn"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                margin="normal"
-                data-testid="submit-btn"
-                disabled={isCalling}
-              >
-                {isCalling ? <CircularProgress color="secondary" /> : `Log In`}
-              </Button>
-              <small><Link>Forgot password?</Link></small><br />
-              <small>First-Time User? <Link component={RouterLink} to="/join">Sign Up</Link></small>
-            </form>
-          </Paper>
+            <Button
+              className={classes.submit}
+              type="submit"
+              id="login_btn"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              margin="normal"
+              data-testid="submit-btn"
+              disabled={isCalling}
+            >
+              {isCalling ? <CircularProgress color="secondary" /> : `Log In`}
+            </Button>
+            <small><Link>Forgot password?</Link></small><br />
+            <small>First-Time User? <Link component={RouterLink} to="/join">Sign Up</Link></small>
+          </form>
         </Grid>
       </Grid>
-    </div>
+
+      <Footer />
+    </>
   );
 };
 

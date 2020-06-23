@@ -5,6 +5,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
+import Footer from '../Footer';
 import Review from './Review';
 
 const useStyles = makeStyles(theme => ({
@@ -45,17 +46,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Profile = (props) => {
+const Profile = ({ match }) => {
   const classes = useStyles();
+  const { id: userId = 'me' } = match.params;
 
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
-  const [userId] = useState(props.match.params.id || 'me');
   const [user, setUser] = useState(undefined);
 
   const fetchData = async (userId) => {
-    setIsCalling(true);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -74,7 +75,7 @@ const Profile = (props) => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(false);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
@@ -102,13 +103,13 @@ const Profile = (props) => {
           {isCalling ? (
             <>
               <div className='message alert full-length loading'>Loading profile...</div>
-              <LinearProgress />
+              <LinearProgress color="secondary" />
             </>
           ) : (
             <>
               {user && (
                 <>
-                  <Grid item key={user.id} xs={12} sm={4} md={3}>
+                  <Grid item xs={12} sm={4} md={3} lg={3}>
                     <Card className={classes.card}>
                       <CardMedia
                         className={classes.cardMedia}
@@ -120,7 +121,7 @@ const Profile = (props) => {
                           {user.first_name} <strong>{user.last_name}</strong>
                         </Typography>
                         <Typography>
-                          MD
+                          <strong>{`${user.is_patient ? 'Patient': 'Specialist (MD)'}`}</strong>
                         </Typography>
                       </CardContent>
                       {/* <CardActions>
@@ -131,13 +132,17 @@ const Profile = (props) => {
                     </Card>
                   </Grid>
 
-                  <Review />
+                  <Grid item xs={12} sm={8} md={9} lg={9}>
+                    <Review userId={userId} />
+                  </Grid>
                 </>
               )}
             </>
           )}
         </Grid>
       </Grid>
+
+      <Footer />
     </>
   )
 };
