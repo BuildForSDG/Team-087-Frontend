@@ -55,7 +55,7 @@ const Profile = ({ match }) => {
   const [user, setUser] = useState(undefined);
 
   const fetchData = async (userId) => {
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -74,7 +74,7 @@ const Profile = ({ match }) => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const Profile = ({ match }) => {
             <>
               {user && (
                 <>
-                  <Grid item key={user.id} xs={12} sm={4} md={3}>
+                  <Grid item xs={12} sm={4} md={3} lg={3}>
                     <Card className={classes.card}>
                       <CardMedia
                         className={classes.cardMedia}
@@ -120,7 +120,7 @@ const Profile = ({ match }) => {
                           {user.first_name} <strong>{user.last_name}</strong>
                         </Typography>
                         <Typography>
-                          MD
+                          <strong>{`${user.is_patient ? 'Patient': 'Specialist (MD)'}`}</strong>
                         </Typography>
                       </CardContent>
                       {/* <CardActions>
@@ -131,7 +131,9 @@ const Profile = ({ match }) => {
                     </Card>
                   </Grid>
 
-                  <Review userId={userId} />
+                  <Grid item xs={12} sm={8} md={9} lg={9}>
+                    <Review userId={userId} />
+                  </Grid>
                 </>
               )}
             </>

@@ -85,7 +85,7 @@ const Recommedation = () => {
   const [users, setUsers] = useState([]);
 
   const fetchSpecialists = async () => {
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -105,7 +105,7 @@ const Recommedation = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {

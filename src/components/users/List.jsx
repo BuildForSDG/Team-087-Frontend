@@ -85,7 +85,7 @@ const UsersList = () => {
   const [total, setTotal] = useState(0);
 
   const fetchUsers = async (page, rowsPerPage) => {
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -107,12 +107,12 @@ const UsersList = () => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchUsers(page, rowsPerPage)
+    fetchUsers(page, rowsPerPage);
 
     return () => setUsers([]); //cleanup
   }, [rowsPerPage, page]);

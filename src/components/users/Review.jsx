@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Typography, LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon
+  LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddComment, CommentRounded } from '@material-ui/icons';
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     marginBottom: '20px'
   },
-  form: {
+  /* form: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
   },
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '0.9em',
     textTransform: 'none',
     width: '30px'
-  },
+  }, */
   bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
@@ -71,17 +71,17 @@ const Review = ({ userId, reviewsList = [] }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [reviews, setReviews] = useState(reviewsList);
-  // const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   /* const handleChangePage = (e, newPage) => { setPage(newPage); }
-
-  const handleChangeRowsPerPage = (e) => {
-    setRowsPerPage(++e.target.value);
-    setPage(0);
-  }; */
+  
+    const handleChangeRowsPerPage = (e) => {
+      setRowsPerPage(++e.target.value);
+      setPage(0);
+    }; */
 
   const fetchReviews = async (userId, page, rowsPerPage) => {
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -96,22 +96,22 @@ const Review = ({ userId, reviewsList = [] }) => {
     try {
       const pathVariable = userId ? `/${userId}` : '';
       const reviewsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
-      const { data: { data: reviews = [], current_page = 1/* , total */ } } = await fetchBot(reviewsEndpoint, options);
+      const { data: { data: reviews = [], current_page: pageNo = 1, total } } = await fetchBot(reviewsEndpoint, options);
 
       setReviews(reviews);
-      setPage(current_page - 1);
+      setPage(pageNo - 1);
       setRowsPerPage(rowsPerPage);// to-be-removed
-      // setTotal(total);
+      setTotal(total);
     } catch (err) {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchReviews(userId, page, rowsPerPage)
+    fetchReviews(userId, page, rowsPerPage);
 
     return () => setReviews([]); //cleanup
   }, [rowsPerPage, page, userId]);
@@ -121,9 +121,7 @@ const Review = ({ userId, reviewsList = [] }) => {
     <>
       <Grid container component="main" className={classes.root}>
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="body2">
-            Reviews
-          </Typography>
+          {/* <Typography variant="body2">Reviews</Typography> */}
 
           <br />
           <br />
@@ -137,8 +135,8 @@ const Review = ({ userId, reviewsList = [] }) => {
             </>
           ) : (
             <>
-              <List>
-                {(reviews && reviews.map(review => (
+              {total > 0 ? <List>
+                {(reviews && reviews.map((review) => (
                   <>
                     <ListItem alignItems="flex-start">
                       {/* <ListItemAvatar>
@@ -151,7 +149,7 @@ const Review = ({ userId, reviewsList = [] }) => {
                   </>
                 )
                 ))}
-              </List>
+              </List> : <span style={{display:'block', padding:'10px'}}>There are no reviews for this profile.</span>}
             </>
           )}
 

@@ -73,7 +73,7 @@ const Login = ({ location }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -93,7 +93,7 @@ const Login = ({ location }) => {
       setErrorFeedBack(`${err.message}: ${err.errors && err.errors.join(', ')}`);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   if (isLoggedIn) {
@@ -138,7 +138,7 @@ const Login = ({ location }) => {
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
-              label="Email or Username"
+              label="E-mail Address or Username"
               margin="normal"
               name="email"
               value={email}

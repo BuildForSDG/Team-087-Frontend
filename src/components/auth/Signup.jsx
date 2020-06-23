@@ -89,7 +89,7 @@ const SignupPage = ({ location }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setSuccessFeedBack('');
     setErrorFeedBack('');
 
@@ -127,7 +127,7 @@ const SignupPage = ({ location }) => {
 
     setPassword('');
     setConfirmPassword('');
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   }
 
   if (isLoggedIn) {

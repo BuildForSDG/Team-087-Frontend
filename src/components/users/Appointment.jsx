@@ -93,7 +93,7 @@ const Appointment = ({ match }) => {
   };
 
   const fetchAppointments = async (userId, page, rowsPerPage) => {
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
@@ -117,12 +117,12 @@ const Appointment = ({ match }) => {
       setErrorFeedBack(err.message);
     }
 
-    setIsCalling(prevIsCalling => !prevIsCalling);
+    setIsCalling((prevIsCalling) => !prevIsCalling);
   };
 
   useEffect(() => {
     //effect
-    fetchAppointments(userId, page, rowsPerPage)
+    fetchAppointments(userId, page, rowsPerPage);
 
     return () => setAppointments([]);//cleanup
   }, [rowsPerPage, page, userId]);
