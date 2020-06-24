@@ -6,8 +6,8 @@ import { Typography, makeStyles } from '@material-ui/core';
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="left">
-      &copy;
-      <Link color="inherit" href="." style={{ textDecoration: "none", fontWeight: "bold", color: "#0c0032" }}>
+      &copy;{' '}
+      <Link color="inherit" to="/" style={{ textDecoration: "none", fontWeight: "bold", color: "#0c0032" }}>
         Mental.ly
       </Link>{' '}
       {new Date().getFullYear()}

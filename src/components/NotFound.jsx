@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NotFound = () => {
+const NotFound = ({ history }) => {
   const classes = useStyles();
 
   return (
@@ -33,7 +33,8 @@ const NotFound = () => {
         <div>This page no longer exists...</div>
 
         <br />
-        <Button className={classes.submitSmall} type="reset" size="large" color="secondary" component="a" href="/" variant="contained" margin="normal">
+        <Button className={classes.submitSmall} type="reset" size="large" color="secondary"
+          onClick={history.goBack} variant="contained" margin="normal">
           Return
         </Button>
       </Grid>
