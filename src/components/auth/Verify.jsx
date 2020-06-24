@@ -124,9 +124,7 @@ const Verify = ({ location }) => {
         <Header />
 
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            Profile Verification
-          </Typography>
+          <Typography variant="h5">Profile Verification</Typography>
 
           <br />
           <br />

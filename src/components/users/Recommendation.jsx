@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: '0',
     textTransform: 'none',
   },
-  text_muted: {
+  textMuted: {
     color: 'grey',
   },
   cardGrid: {
@@ -123,10 +123,8 @@ const Recommedation = () => {
         <Header />
 
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            Neighbourhood Specialists
-          </Typography>
-          <small className={classes.text_muted}>
+          <Typography variant="h5">Neighbourhood Specialists</Typography>
+          <small className={classes.textMuted}>
             List of Mental-Health Specialists around you
           </small>
 
