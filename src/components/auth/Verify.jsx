@@ -91,7 +91,7 @@ const Verify = ({ location }) => {
           'Content-Type': 'application/json',
         },
       };
-        
+
       try {
         const { status } = await fetchBot(`${endPoints.verify}?email=${email}&code=${code}`, options);
         setIsVerified(status);
@@ -101,7 +101,7 @@ const Verify = ({ location }) => {
     } else {
       setErrorFeedBack('Verification details are missing');
     }
-    
+
     setIsCalling(false);
   };
 
@@ -109,9 +109,7 @@ const Verify = ({ location }) => {
     //effect
     verify(email, code);
 
-    return () => {
-      //cleanup
-    }
+    return () => setIsVerified(false);//cleanup
   }, [code, email])
 
   if (isLoggedIn) {
@@ -129,7 +127,7 @@ const Verify = ({ location }) => {
           <br />
           <br />
           <Divider />
-          <Grid md="3" sm="9">
+          <Grid item md={3} sm={9}>
             {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
             <form onSubmit={handleSubmit}>
@@ -144,8 +142,8 @@ const Verify = ({ location }) => {
                 data-testid="submit-btn"
                 disabled={isCalling || isVerified}
               >
-                {isCalling ? <CircularProgress color="secondary" aria-label="Verifying..." /> 
-                  : (isVerified ? <VerifiedUser color="secondary" /> :"Verify")}
+                {isCalling ? <CircularProgress color="secondary" aria-label="Verifying..." />
+                  : (isVerified ? <VerifiedUser color="secondary" /> : "Verify")}
               </Button>
             </form>
             {isCalling ? <></> : <small className={classes.text_muted}>
