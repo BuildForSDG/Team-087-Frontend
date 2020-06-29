@@ -12,6 +12,7 @@ import { isLoggedIn } from './helpers';
 import Verify from './components/auth/Verify';
 import Appointment from './components/users/Appointment';
 import Profile from './components/users/Profile';
+import GroupsList from './components/groups/List';
 
 /**
  *
@@ -46,6 +47,7 @@ const App = () => {
           <PrivateRoute exact path="/users" component={UsersList} />
           <PrivateRoute exact path="/users/:id" component={Profile} />
           <PrivateRoute exact path="/profile/:id?" component={Profile} />
+          <PrivateRoute exact path="/groups/:id?" component={GroupsList} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>

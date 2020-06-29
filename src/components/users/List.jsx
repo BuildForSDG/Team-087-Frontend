@@ -5,7 +5,7 @@ import {
   TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Face, Add } from '@material-ui/icons';
+import { Face, PersonAdd } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -191,7 +191,7 @@ const UsersList = () => {
           )}
 
           <Fab color="secondary" className={classes.fab}>
-            <Add titleAccess="Add User" />
+            <PersonAdd titleAccess="Add User" />
           </Fab>
         </Grid>
       </Grid>

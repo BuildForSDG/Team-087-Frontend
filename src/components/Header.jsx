@@ -4,7 +4,7 @@ import {
   Typography, AppBar, Toolbar, IconButton, Menu, MenuItem, FormGroup, FormControlLabel, Switch
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountCircle, Menu as MenuIcon } from '@material-ui/icons';
+import { AccountCircleOutlined, Menu as MenuIcon, NotificationsOutlined } from '@material-ui/icons';
 import { isLoggedIn, signOut, fetchFirstName } from '../helpers';
 
 
@@ -37,7 +37,7 @@ const Header = () => {
     <AppBar position="static" className={classes.bg}>
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
+          <MenuIcon color="secondary" />
         </IconButton>
         <Typography variant="h6" className={classes.title}>Mental<span style={{ fontSize: '28px' }}>.</span>ly</Typography>
         <FormGroup>
@@ -45,11 +45,17 @@ const Header = () => {
             control={<Switch checked={isLoggedIn} onChange={() => signOut()} aria-label="login / logout switch" />}
             label={isLoggedIn ? 'Logout' : 'Login'} />
         </FormGroup>
+        
         {isLoggedIn && (
           <>
+            <IconButton aria-label="notifications" aria-controls="menu-appbar" aria-haspopup="false"
+              onClick={e => setAnchorE1(null)} color="inherit">
+              <NotificationsOutlined color="secondary" titleAccess="Notifications" />
+            </IconButton>
+ 
             <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true"
               onClick={e => setAnchorE1(e.currentTarget)} color="inherit">
-              <AccountCircle />
+              <AccountCircleOutlined color="secondary" />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -71,6 +77,7 @@ const Header = () => {
               <MenuItem dense component={NavLink} to="/users">Users</MenuItem>
               <MenuItem dense component={NavLink} to="/neighbourhood-experts">Recommendations</MenuItem>
               <MenuItem dense component={NavLink} to="/appointments">Appointments</MenuItem>
+              <MenuItem dense component={NavLink} to="/groups">Care Groups</MenuItem>
               <MenuItem dense onClick={() => setAnchorE1(null)}>Settings</MenuItem>
             </Menu>
           </>
