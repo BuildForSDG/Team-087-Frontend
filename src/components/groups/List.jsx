@@ -89,7 +89,7 @@ const GroupsList = () => {
     fetchData();// effect
 
     return () => setIsCalling(false) // cleanup
-  }, [])
+  }, []);
 
   return (
     <>
