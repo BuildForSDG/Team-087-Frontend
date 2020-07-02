@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '100vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     // marginRight: theme.spacing(1),
     display: "block",
     margin: "20px 0px",
-    // width: 220,
+    width: 250,
   },
 }));
 
@@ -122,12 +122,10 @@ const AppointmentForm = (props) => {
               {isCalling ? <CircularProgress color="secondary" /> : `Submit`}
             </Button>
           </form>
+
+          <Hidden mdUp><Footer /></Hidden>
         </Grid>
       </Grid>
-
-      <Hidden mdUp>
-        <Footer />
-      </Hidden>
     </>
   );
 };

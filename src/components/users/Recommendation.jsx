@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '100vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -171,9 +171,9 @@ const Recommedation = () => {
             </>
           )}
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
 }

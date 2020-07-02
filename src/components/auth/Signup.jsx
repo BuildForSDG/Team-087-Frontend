@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100vh',
+    minHeight: '100vh',
     // border: 0,
   },
   title: {
@@ -267,9 +267,9 @@ const SignupPage = ({ location }) => {
             </small>
           </form>
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
 };

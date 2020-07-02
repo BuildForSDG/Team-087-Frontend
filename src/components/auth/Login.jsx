@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100vh',
+    minHeight: '100vh',
   },
   form: {
     padding: theme.spacing(3),
@@ -174,9 +174,9 @@ const Login = ({ location }) => {
             <small>First-Time User? <Link component={RouterLink} to="/join">Sign Up</Link></small>
           </form>
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
 };

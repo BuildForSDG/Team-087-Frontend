@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '100vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -210,9 +210,9 @@ const Appointment = ({ match }) => {
             <AppointmentForm onBooking={handleBooking} userId={userId} isChecking={isCalling} />
           </Drawer>
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
 };
