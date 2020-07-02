@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '100vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -116,13 +116,13 @@ const GroupsList = () => {
             <>
               {total > 0 ? <List>
                 {(groups && groups.map((group) => (
-                  <>
+                  <React.Fragment key={group.id}>
                     <ListItem alignItems="flex-start">
                       <ListItemIcon><GroupWork color="secondary" /></ListItemIcon>
                       <ListItemText primary="....." secondary={`${group.name}`} />
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                  </>
+                  </React.Fragment>
                 )
                 ))}
               </List> : <span style={{display:'block', padding:'10px'}}>There are no care-groups yet..</span>}
@@ -133,9 +133,9 @@ const GroupsList = () => {
             <GroupAdd titleAccess="Create Group" />
           </Fab>
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
 };
