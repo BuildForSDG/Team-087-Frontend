@@ -20,30 +20,29 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: '100vh',
-    // border: 0,
+    minHeight: '80vh',
+    padding: theme.spacing(3, 4)
   },
   title: {
     fontWeight: 'bolder',
     marginTop: theme.spacing(3),
   },
+  callToAction: {
+    padding: theme.spacing(10, 5, 3, 3)
+  },
   textMuted: {
     color: 'grey',
   },
-
   form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(0),
+    marginTop: theme.spacing(2),
   },
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
     fontSize: '1.2em',
-    // backgroundColor: '#0c0032',
-    // borderRadius: 0,
     textTransform: 'none',
   },
-  squareBtn: {
+  /* squareBtn: {
     color: 'white',
     border: '2px solid white',
     borderRadius: 0,
@@ -65,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   },
   pr: {
     paddingRight: theme.spacing(1),
-  },
+  }, */
   pb: {
     paddingBottom: theme.spacing(2),
   },
@@ -85,7 +84,6 @@ const SignupPage = ({ location }) => {
   const [isCalling, setIsCalling] = useState(false);
   const [successFeedBack, setSuccessFeedBack] = useState('');
   const [errorFeedBack, setErrorFeedBack] = useState('');
-  //   const [errorBag, setErrorBag] = useState([]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -140,10 +138,10 @@ const SignupPage = ({ location }) => {
       <Grid container componet="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg={7} /* className={classes.bg} */>
+        <Grid item xs={12} lg={8} /* className={classes.bg} */>
           <Typography component="h2" variant="h3">
             <Hidden xsDown>
-              <div style={{padding:'50px 20px'}}>
+              <div className={classes.callToAction}>
                 Looking for a neighbourhood mental-health specialist to consult?
 
                 <Typography className={classes.title} component="h1" variant="h2">
@@ -158,41 +156,43 @@ const SignupPage = ({ location }) => {
         </Grid>
 
         <Grid item className={classes.paper} xs={12} lg>
+          <Hidden smUp>
+            <Typography className={classes.title} component="h3" variant="h4">
+              Sign-up for a FREE account
+            </Typography>
+          </Hidden>
           <br />
 
           {successFeedBack && <div className='message alert full-length alert-success'>{successFeedBack}</div>}
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
 
           <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
-            <div>
-              <TextField
-                // className={classes.pr}
-                variant="outlined"
-                type="text"
-                label="First Name"
-                margin="normal"
-                required
-                fullWidth
-                name="first_name"
-                value={firstName}
-                onChange={e => setFirstName(e.target.value)}
-                //   helperText="Enter Your Firstname"
-                disabled={isCalling}
-              />
-              <TextField
-                variant="outlined"
-                type="text"
-                label="Last Name"
-                margin="normal"
-                required
-                fullWidth
-                name="last_name"
-                value={lastName}
-                onChange={e => setLastName(e.target.value)}
-                //   helperText="Enter Your Lastname"
-                disabled={isCalling}
-              />
-            </div>
+            <TextField
+              variant="outlined"
+              type="text"
+              label="First Name"
+              margin="normal"
+              required
+              fullWidth
+              name="first_name"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              //   helperText="Enter Your Firstname"
+              disabled={isCalling}
+            />
+            <TextField
+              variant="outlined"
+              type="text"
+              label="Last Name"
+              margin="normal"
+              required
+              fullWidth
+              name="last_name"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              //   helperText="Enter Your Lastname"
+              disabled={isCalling}
+            />
 
             <div className={classes.pb}>
               <FormLabel component="legend">Gender:</FormLabel>
@@ -221,33 +221,30 @@ const SignupPage = ({ location }) => {
               onChange={e => setEmail(e.target.value)}
               disabled={isCalling}
             />
-            <div>
-              <TextField
-                // className={classes.pr}
-                variant="outlined"
-                label="Password"
-                type="password"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                disabled={isCalling}
-              />
-              <TextField
-                variant="outlined"
-                type="password"
-                label="Confirm Password"
-                margin="normal"
-                required
-                fullWidth
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                disabled={isCalling}
-              />
-            </div>
+            <TextField
+              variant="outlined"
+              label="Password"
+              type="password"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              disabled={isCalling}
+            />
+            <TextField
+              variant="outlined"
+              type="password"
+              label="Confirm Password"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              disabled={isCalling}
+            />
 
             <Button
               className={classes.submit}

@@ -13,22 +13,20 @@ const useStyles = makeStyles(theme => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '100vh',
+    alignItems: 'left',
+    minHeight: '80vh',
+    padding: theme.spacing(3, 4)
   },
   form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
     fontSize: '1.2em',
-    // backgroundColor: '#0c0032;',
-    // borderRadius: 0,
     textTransform: 'none',
   },
-  bg: {
+  /* bg: {
     backgroundColor: '#0c0032;',
   },
   squareBtn: {
@@ -45,18 +43,20 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     borderRadius: 0,
     textTransform: 'none',
-  },
-
+  }, */
   title: {
     fontWeight: 'bolder',
     marginTop: theme.spacing(3),
     color: '#0c0032'
   },
-  textWhite: {
+  callToAction: {
+    padding: theme.spacing(10, 5, 3, 3)
+  },
+  /* textWhite: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  },
+  }, */
   textMuted: {
     color: 'grey',
   },
@@ -106,10 +106,10 @@ const Login = ({ location }) => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid item xs={12} lg={7} /* className={classes.bg} */>
+        <Grid item xs={12} lg={8} /* className={classes.bg} */>
           <Hidden xsDown>
             <Typography component="h2" variant="h3">
-              <div style={{padding:'50px 20px'}}>
+              <div className={classes.callToAction}>
                 Looking for a neighbourhood mental-health specialist to consult?
           
                 <Typography className={classes.title} component="h1" variant="h2">
@@ -124,11 +124,15 @@ const Login = ({ location }) => {
         </Grid>
 
         <Grid item className={classes.paper} xs={12} lg>
-          {/* <Hidden smUp>
-            <Button className={classes.hiddenBtn} d="hidden-sign-up-btn-2">
+          <Hidden smUp>
+            {/* <Button className={classes.hiddenBtn} d="hidden-sign-up-btn-2">
               <Link href="/join">Sign Up</Link>
-            </Button>
-          </Hidden> */}
+            </Button> */}
+            <Typography className={classes.title} component="h3" variant="h4">
+              Sign-in to your account
+            </Typography>
+          </Hidden>
+
           <br/>
           <br/>
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
