@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Grid, Typography, LinearProgress, Divider, Card, CardMedia, CardContent
+  Grid, Typography, LinearProgress, Divider, Card, CardMedia, CardContent, Hidden
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
@@ -90,7 +90,7 @@ const Profile = ({ match }) => {
       <Grid container component="main" className={classes.root}>
         <Header />
 
-        <Grid container item className={classes.paper} xs={12} lg>
+        <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Profile</Typography>
 
           <br />
@@ -106,7 +106,7 @@ const Profile = ({ match }) => {
           ) : (
             <>
               {user && (
-                <>
+                <Grid container>
                   <Grid item xs={12} sm={4} md={3} lg={3}>
                     <Card className={classes.card}>
                       <CardMedia
@@ -131,9 +131,10 @@ const Profile = ({ match }) => {
                   </Grid>
 
                   <Grid item xs={12} sm={8} md={9} lg={9}>
+                    <Hidden><br /><br /><Divider /></Hidden>
                     <Review userId={userId} />
                   </Grid>
-                </>
+                </Grid>
               )}
             </>
           )}
