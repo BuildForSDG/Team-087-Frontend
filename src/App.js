@@ -11,6 +11,7 @@ import Recommedation from './components/users/Recommendation';
 import { isLoggedIn } from './helpers';
 import Verify from './components/auth/Verify';
 import Appointment from './components/users/Appointment';
+import AppointmentInfo from './components/users/AppointmentInfo';
 import Profile from './components/users/Profile';
 import GroupsList from './components/groups/List';
 import Audits from './components/Audit';
@@ -30,6 +31,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const THEME = createMuiTheme({
   typography: {
     fontFamily: "'Raleway', sans-serif",
+    h6: {
+      // fontWeight: "bold",
+      padding: "5px"
+    }
   },
 });
 
@@ -42,6 +47,7 @@ const App = () => {
           <PrivateRoute exact path="/dashboard" component={DashBoard} />
           <PrivateRoute exact path="/neighbourhood-experts" component={Recommedation} />
           <PrivateRoute exact path="/appointments" component={Appointment} />
+          <PrivateRoute exact path="/appointments/:id" component={AppointmentInfo} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/join" component={Signup} />
           <Route exact path="/verify" component={Verify} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon
+  LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon, Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddComment, CommentRounded } from '@material-ui/icons';
@@ -15,9 +15,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
-    padding: '20px',
-    marginBottom: '20px'
+    minHeight: '100vh',
+    paddingTop: '5px',
+    margin: '5px 0 20px'
   },
   /* form: {
     padding: theme.spacing(3),
@@ -42,22 +42,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#0c0032',
     color: '#ffffff',
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    fontWeight: 'bolder',
-    // marginTop: theme.spacing(3),
-    // color: '#0c0032',
-    flexGrow: 1,
-  },
   fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
-  },
-  table: {
-    minWidth: 650,
   }
 }));
 
@@ -94,7 +82,7 @@ const Review = ({ userId, reviewsList = [] }) => {
     };
 
     try {
-      const pathVariable = userId ? `/${userId}` : '';
+      const pathVariable = userId && (userId !== 'me') ? `/${userId}` : '';
       const reviewsEndpoint = `${endPoints.users.uri}${pathVariable}${endPoints.users.paths.reviews}?chunk=${rowsPerPage}&page=${page + 1}`;
       const { data: { data: reviews = [], current_page: pageNo = 1, total } } = await fetchBot(reviewsEndpoint, options);
 
@@ -121,12 +109,12 @@ const Review = ({ userId, reviewsList = [] }) => {
     <>
       <Grid container component="main" className={classes.root}>
         <Grid item className={classes.paper} xs={12} lg>
-          {/* <Typography variant="body2">Reviews</Typography> */}
+          <Typography variant="h6">Review(s)</Typography>
+          <Divider />
 
           <br />
-          <br />
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
-          <Divider />
+          {/* <Divider /> */}
 
           {isCalling ? (
             <>
@@ -137,7 +125,7 @@ const Review = ({ userId, reviewsList = [] }) => {
             <>
               {total > 0 ? <List>
                 {(reviews && reviews.map((review) => (
-                  <>
+                  <React.Fragment key={review.id}>
                     <ListItem alignItems="flex-start">
                       {/* <ListItemAvatar>
                         <Avatar alt="---" src="" />
@@ -146,7 +134,7 @@ const Review = ({ userId, reviewsList = [] }) => {
                       <ListItemText primary="....." secondary={`${review.remark} (${review.rating})`} />
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                  </>
+                  </React.Fragment>
                 )
                 ))}
               </List> : <span style={{display:'block', padding:'10px'}}>There are no reviews for this profile.</span>}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles, Grid } from '@material-ui/core';
 
 
 const Copyright = () => {
   return (
-    <Typography variant="body2" color="textSecondary" align="left">
+    <Typography variant="body2" color="textSecondary" align="left" gutterBottom>
       &copy;{' '}
       <Link color="inherit" to="/" style={{ textDecoration: "none", fontWeight: "bold", color: "#0c0032" }}>
         Mental.ly
@@ -34,16 +34,22 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <footer className={classes.footer}>
-      {/* <Typography variant="h6" align="center" gutterBottom>
-        Mental.ly
-        </Typography>
-        
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-            Something here to give the footer a purpose!
-        </Typography> */}
-      <Copyright />
-    </footer>
+    <>
+      <Grid container>
+        <Grid item xs={12}>
+          <footer className={classes.footer}>
+            {/* <Typography variant="h6" align="center" gutterBottom>
+                Mental.ly
+                </Typography>
+                
+                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                Something here to give the footer a purpose!
+            </Typography> */}
+            <Copyright />
+          </footer>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

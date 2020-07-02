@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Paper, Typography, LinearProgress, Divider, TableContainer, Table,
-  TableRow, TableHead, TableCell, TableBody, TablePagination, Chip, Link, Fab
+  Grid, Paper, Typography, LinearProgress, Divider, TableContainer, Table, TableRow, TableHead,
+  TableCell, TableBody, TablePagination, Chip, Link, Fab, Drawer
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Header from '../Header';
 import Footer from '../Footer';
+import AppointmentForm from './AppointmentForm';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,14 +20,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '100vh',
     padding: '20px',
     marginBottom: '20px'
   },
   /* form: {
-            padding: theme.spacing(3),
-            marginTop: theme.spacing(3),
-          }, */
+                          padding: theme.spacing(3),
+                          marginTop: theme.spacing(3),
+                        }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -61,22 +62,28 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   /* text_white: {
-          color: 'white',
-          textDecoration: '0',
-          textTransform: 'none',
-        }, */
+                        color: 'white',
+                        textDecoration: '0',
+                        textTransform: 'none',
+                      }, */
   textMuted: {
     color: 'grey',
   },
   table: {
     minWidth: 650,
-  }
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
 }));
 
 const Appointment = ({ match }) => {
   const classes = useStyles();
   const { id: userId } = match.params;
 
+  const [isOpen, setIsOpen] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [errorFeedBack, setErrorFeedBack] = useState('');
 
@@ -93,14 +100,17 @@ const Appointment = ({ match }) => {
     setPage(0);
   };
 
+  const handleBooking = (appointment) => {
+    setTimeout(() => setIsOpen((prevIsOpen) => !prevIsOpen), 3000);
+    setAppointments([...appointments, appointment]);
+  };
+
   const fetchAppointments = async (userId, page, rowsPerPage) => {
     setIsCalling((prevIsCalling) => !prevIsCalling);
     setErrorFeedBack('');
 
     const options = {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
+      method: 'GET', mode: 'cors', headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${fetchToken()}`
       },
@@ -128,6 +138,13 @@ const Appointment = ({ match }) => {
     return () => setAppointments([]);//cleanup
   }, [rowsPerPage, page, userId]);
 
+  const toggleDrawer = (isOpen) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setIsOpen(isOpen);
+  };
 
   return (
     <>
@@ -136,9 +153,7 @@ const Appointment = ({ match }) => {
 
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Appointments</Typography>
-          <small className={classes.textMuted}>
-            List of scheduled/booked appointments
-          </small>
+          <small className={classes.textMuted}>List of scheduled/booked appointments</small>
 
           <br />
           <br />
@@ -166,7 +181,8 @@ const Appointment = ({ match }) => {
                         <TableCell component="th" scope="row">
                           {appointment.purpose}
                           <br /><br />
-                          <Chip icon={<Bookmark color="secondary" />} label={appointment.status} color="secondary" size="small" />
+                          <Chip icon={<Bookmark color="secondary" />} label={appointment.status || 'pending'} 
+                            color="secondary" size="small" />
                         </TableCell>
                         <TableCell align="center">&nbsp;</TableCell>
                         <TableCell align="left">&nbsp;</TableCell>
@@ -185,13 +201,18 @@ const Appointment = ({ match }) => {
             </>
           )}
 
-          <Fab color="secondary" className={classes.fab}>
+          <Fab color="secondary" className={classes.fab} disabled={isCalling} onClick={toggleDrawer(!isOpen)}>
             <BookOutlined titleAccess="Book Appointment" />
           </Fab>
-        </Grid>
-      </Grid>
 
-      <Footer />
+          {/* // check for existence of appointment-id */}
+          <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
+            <AppointmentForm onBooking={handleBooking} userId={userId} isChecking={isCalling} />
+          </Drawer>
+        </Grid>
+
+        <Footer />
+      </Grid>
     </>
   );
 };
