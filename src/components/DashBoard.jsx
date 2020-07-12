@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -31,15 +31,13 @@ const DashBoard = () => {
         <Header />
 
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            DashBoard
-          </Typography>
+          <Typography variant="h5">DashBoard</Typography>
         </Grid>
-      </Grid>
 
-      <Footer />
+        <Footer />
+      </Grid>
     </>
   );
-}
+};
 
 export default DashBoard;

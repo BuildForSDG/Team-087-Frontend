@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell,
-  TableBody, FormControlLabel, Switch, LinearProgress, Chip, Divider, TablePagination, Fab
+  TableBody, FormControlLabel, Switch, LinearProgress, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, PersonAdd } from '@material-ui/icons';
@@ -19,13 +19,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
-  },
-  form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(2, 0, 2),
@@ -35,36 +31,40 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 0,
     textTransform: 'none',
   },
-  submitSmall: {
-    margin: theme.spacing(1, 0, 1),
-    padding: theme.spacing(1, 1, 1),
-    fontSize: '0.9em',
-    textTransform: 'none',
-    width: '30px'
-  },
-  bg: {
-    backgroundColor: '#0c0032',
-    color: '#ffffff',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    fontWeight: 'bolder',
-    // marginTop: theme.spacing(3),
-    // color: '#0c0032',
-    flexGrow: 1,
-  },
+  /* form: {
+      padding: theme.spacing(3),
+      marginTop: theme.spacing(3),
+    },
+    submitSmall: {
+      margin: theme.spacing(1, 0, 1),
+      padding: theme.spacing(1, 1, 1),
+      fontSize: '0.9em',
+      textTransform: 'none',
+      width: '30px'
+    },
+    bg: {
+      backgroundColor: '#0c0032',
+      color: '#ffffff',
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    title: {
+      fontWeight: 'bolder',
+      // marginTop: theme.spacing(3),
+      // color: '#0c0032',
+      flexGrow: 1,
+    },
+    text_white: {
+        color: 'white',
+        textDecoration: '0',
+        textTransform: 'none',
+      }, */
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-  /* text_white: {
-      color: 'white',
-      textDecoration: '0',
-      textTransform: 'none',
-    }, */
   textMuted: {
     color: 'grey',
   },
@@ -154,31 +154,31 @@ const UsersList = () => {
                 <Table stickyHeader className={classes.table} size="small" aria-label="users table">
                   <TableHead>
                     <TableRow>
-                      <TableCell><strong>Last Name</strong></TableCell>
-                      <TableCell><strong>First Name</strong></TableCell>
-                      <TableCell><strong>Gender</strong></TableCell>
-                      <TableCell align="center"><strong>Category</strong></TableCell>
+                      <TableCell><strong>Full Name</strong></TableCell>
                       <TableCell colSpan="2">&nbsp;</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {users.map(user => (
                       <TableRow key={user.id} hover>
-                        <TableCell component="th" scope="row">{user.last_name}</TableCell>
-                        <TableCell>{user.first_name}</TableCell>
-                        <TableCell>{user.gender}</TableCell>
-                        <TableCell align="center">
-                          <Chip
-                            label={user.is_patient ? 'Patient' : (user.specialist ? 'Specialist' : 'Administrator')}
-                            color="secondary" style={{ alignItems: 'center' }} />
+                        <TableCell component="th" scope="row">
+                          {user.first_name}{' '}<strong>{user.last_name?.toUpperCase()}</strong>
+                          <Typography color="secondary" style={{ fontWeight: "bold" }}>
+                            <small>
+                              {user.is_patient ? 'Patient' : (!user.is_admin ? 'Specialist' : 'Administrator')}
+                            </small>
+                          </Typography>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="right">
                           <FormControlLabel
-                            control={<Switch checked={user.is_active} size="small" aria-label={user.is_active ? 'active' : 'inactive'} />}
-                            label={user.is_active ? 'active' : 'inactive'} />
+                            control={<Switch checked={user.is_active} size="small"
+                              aria-label={user.is_active ? 'active' : 'inactive'} />}
+                            label={user.is_active ? 'active' : 'inactive'} labelPlacement="start" />
                         </TableCell>
-                        <TableCell align="center">
-                          <Chip icon={<Face />} label="View" component={RouterLink} to={`/users/${user.id}`} clickable />
+                        <TableCell align="right">
+                          <RouterLink to={`/users/${user.id}`}><Face color="secondary" /></RouterLink>
+                          {/* <Chip icon={<Face />} label="View" component={RouterLink} 
+                            to={`/users/${user.id}`} clickable /> */}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -190,7 +190,7 @@ const UsersList = () => {
             </>
           )}
 
-          <Fab color="secondary" className={classes.fab}>
+          <Fab color="secondary" disabled={isCalling} className={classes.fab}>
             <PersonAdd titleAccess="Add User" />
           </Fab>
         </Grid>

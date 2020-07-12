@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid, Typography, LinearProgress, CardMedia, Card, CardContent,
-  Button, CardActions, Divider, Chip, Box
+  CardActions, Divider, Box
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
@@ -23,11 +23,11 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     marginBottom: '20px'
   },
-  form: {
+  /* form: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
   },
-  submit: {
+  /* submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
     fontSize: '1.2em',
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 0,
     textTransform: 'none',
   },
-  submitSmall: {
+  /* submitSmall: {
     margin: theme.spacing(1, 0, 1),
     padding: theme.spacing(1, 1, 1),
     fontSize: '0.9em',
@@ -45,18 +45,18 @@ const useStyles = makeStyles(theme => ({
   bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
-  },
+  }, */
   title: {
     fontWeight: 'bolder',
     // marginTop: theme.spacing(3),
     // color: '#0c0032',
     flexGrow: 1,
   },
-  text_white: {
+  /* text_white: {
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  },
+  }, */
   textMuted: {
     color: 'grey',
   },
@@ -152,16 +152,16 @@ const Recommedation = () => {
                         />
                         <CardContent className={classes.cardContent}>
                           <Typography gutterBottom variant="h5" component="h2">
-                            {user.first_name} <strong>{user.last_name}</strong>
+                            {user.first_name} <strong>{user.last_name?.toUpperCase()}</strong>
                           </Typography>
-                          <Typography>
-                            MD
-                          </Typography>
+                          <small className={classes.textMuted}>MD</small>
                         </CardContent>
-                        <CardActions>
-                          <Button size="small" color="primary">
+                        <CardActions style={{background: "#cccccc", alignItems: 'right'}}>
+                          <RouterLink to={`/users/${user.id}`} title="View"><Face color="secondary" /></RouterLink>                                
+
+                          {/* <Button size="small" color="primary">
                             <Chip icon={<Face />} label="View" color="secondary" component={RouterLink} to={`/users/${user.id}`} clickable />
-                          </Button>
+                          </Button> */}
                         </CardActions>
                       </Card>
                     </Grid>

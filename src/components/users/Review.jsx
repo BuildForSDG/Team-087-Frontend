@@ -16,8 +16,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'left',
     minHeight: '100vh',
-    paddingTop: '5px',
-    margin: '5px 0 20px'
+    margin: '5px 10px 20px'
   },
   /* form: {
     padding: theme.spacing(3),

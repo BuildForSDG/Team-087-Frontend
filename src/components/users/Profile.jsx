@@ -131,7 +131,7 @@ const Profile = ({ match }) => {
                   </Grid>
 
                   <Grid item xs={12} sm={8} md={9} lg={9}>
-                    <Hidden><br /><br /><Divider /></Hidden>
+                    <Hidden mdUp><br /><br /><Divider /></Hidden>
                     <Review userId={userId} />
                   </Grid>
                 </Grid>
