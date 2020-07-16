@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid, Paper, Typography, TableContainer, Table, TableHead, TableRow, TableCell,
-  TableBody, FormControlLabel, Switch, LinearProgress, Divider, TablePagination, Fab
+  TableBody, FormControlLabel, Switch, Divider, TablePagination, Fab
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, PersonAdd } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Layout from '../../shared/Layout';
+import Layout, { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   /* root: {
@@ -140,12 +140,7 @@ const UsersList = () => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading Users...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="users" /> : (
             <>
               <TableContainer component={Paper}>
                 <Table stickyHeader className={classes.table} size="small" aria-label="users table">

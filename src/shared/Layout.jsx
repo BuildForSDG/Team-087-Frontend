@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Hidden } from '@material-ui/core';
+import { Grid, Hidden, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './Header';
 import Footer from './Footer';
@@ -29,3 +29,14 @@ const Layout = (props) => {
 };
 
 export default Layout;
+
+export const Loader = (props) => {
+  const { message } = props;
+  
+  return (
+    <>
+      <div className='message alert full-length loading'>Loading {message}...</div>
+      <LinearProgress color="secondary" />
+    </>
+  );
+};

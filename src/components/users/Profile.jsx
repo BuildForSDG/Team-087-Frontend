@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Grid, Typography, LinearProgress, Divider, Card, CardMedia, CardContent, Hidden
+  Grid, Typography, Divider, Card, CardMedia, CardContent, Hidden
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
 import Review from './Review';
-import Layout from '../../shared/Layout';
+import Layout, { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   /* root: {
@@ -95,12 +95,7 @@ const Profile = ({ match }) => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading profile...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="profile" /> : (
             <>
               {user && (
                 <Grid container>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Grid, Typography, LinearProgress, Divider, ListItemIcon, ListItem, 
+  Grid, Typography, Divider, ListItemIcon, ListItem, 
   ListItemText, List, TextField, CircularProgress, Button, Hidden
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { CommentRounded, KeyboardReturn } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Layout from '../../shared/Layout';
+import Layout, { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   /* root: {
@@ -133,12 +133,7 @@ const AppointmentInfo = (props) => {// style={{marginTop: "0"}}
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading appointment details...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="appointment-details" /> : (
             <>
               <Grid container spacing={1}>
                 {appointment && (

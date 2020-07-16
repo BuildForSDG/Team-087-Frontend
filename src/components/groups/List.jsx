@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Grid, Typography, LinearProgress, Divider, Fab, ListItem, List, ListItemIcon, ListItemText
+  Grid, Typography, Divider, Fab, ListItem, List, ListItemIcon, ListItemText
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { GroupAdd, GroupWork } from '@material-ui/icons';
-import Layout from '../../shared/Layout';
+import Layout, { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   /* root: {
@@ -104,12 +104,7 @@ const GroupsList = () => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading care-groups...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="care-groups" /> : (
             <>
               {total > 0 ? <List>
                 {(groups && groups.map((group) => (
