@@ -9,10 +9,10 @@ import { isLoggedIn, signOut, fetchFirstName } from '../helpers';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   bg: {
     backgroundColor: '#ffffff',
     color: '#0c0032',

@@ -6,19 +6,18 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { CommentRounded, KeyboardReturn } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     flexGrow: 1,
     marginBottom: '20px'
@@ -46,11 +45,11 @@ const useStyles = makeStyles(theme => ({
   textMuted: {
     color: 'grey',
   },
-  textField: {
+  /* textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
-  },
+  }, */
 }));
 
 const AppointmentInfo = (props) => {// style={{marginTop: "0"}}
@@ -124,10 +123,7 @@ const AppointmentInfo = (props) => {// style={{marginTop: "0"}}
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Hidden mdUp>&nbsp;</Hidden>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Appointment In-Details</Typography>
           <small className={classes.textMuted}>Details of appointment with conversation(s)</small>
@@ -198,10 +194,7 @@ const AppointmentInfo = (props) => {// style={{marginTop: "0"}}
             </>
           )}
         </Grid>
-
-        {/* <Hidden mdUp></Hidden> */}
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

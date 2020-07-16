@@ -4,16 +4,15 @@ import qs from 'querystring';
 import { Button, Grid, Typography, CircularProgress, Divider, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
-import Header from '../Header';
 import { useEffect } from 'react';
 import { VerifiedUser } from '@material-ui/icons';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     // flexGrow: 1
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 0,
     textTransform: 'none',
   },
-  bg: {
+  /* bg: {
     backgroundColor: '#0c0032;',
   },
   squareBtn: {
@@ -62,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     textDecoration: '0',
     textTransform: 'none',
-  },
+  }, */
   text_muted: {
     color: 'grey',
   },
@@ -118,9 +117,7 @@ const Verify = ({ location }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Profile Verification</Typography>
 
@@ -151,9 +148,7 @@ const Verify = ({ location }) => {
             </small>}
           </Grid>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

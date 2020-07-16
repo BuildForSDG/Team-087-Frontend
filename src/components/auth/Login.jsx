@@ -3,13 +3,12 @@ import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { Button, Grid, Link, TextField, Typography, CircularProgress, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, registerAuth, isLoggedIn } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -103,9 +102,7 @@ const Login = ({ location }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item xs={12} lg={8} /* className={classes.bg} */>
           <Hidden xsDown>
             <Typography component="h2" variant="h3">
@@ -178,9 +175,7 @@ const Login = ({ location }) => {
             <small>First-Time User? <Link component={RouterLink} to="/join">Sign Up</Link></small>
           </form>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

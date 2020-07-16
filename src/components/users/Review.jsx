@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     margin: '5px 10px 20px'
   },
   /* form: {
@@ -37,13 +37,13 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     width: '30px'
   }, */
-  bg: {
+  /* bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
-  },
+  }, */
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
+    position: 'fixed',
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
   }
 }));

@@ -7,20 +7,19 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
 import AppointmentForm from './AppointmentForm';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -36,23 +35,23 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 0,
     textTransform: 'none',
   },
-  submitSmall: {
+  /* submitSmall: {
     margin: theme.spacing(1, 0, 1),
     padding: theme.spacing(1, 1, 1),
     fontSize: '0.9em',
     textTransform: 'none',
     width: '30px'
-  },
+  }, */
   bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
   },
-  menuButton: {
+  /* menuButton: {
     marginRight: theme.spacing(2)
-  },
+  }, */
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
+    position: 'fixed',
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
   },
   title: {
@@ -72,11 +71,11 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
-  textField: {
+  /* textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
-  },
+  }, */
 }));
 
 const Appointment = ({ match }) => {
@@ -148,9 +147,7 @@ const Appointment = ({ match }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Appointments</Typography>
           <small className={classes.textMuted}>List of scheduled/booked appointments</small>
@@ -210,9 +207,7 @@ const Appointment = ({ match }) => {
             <AppointmentForm onBooking={handleBooking} userId={userId} isChecking={isCalling} />
           </Drawer>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

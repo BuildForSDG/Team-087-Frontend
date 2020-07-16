@@ -7,14 +7,13 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Face, PersonAdd } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -62,7 +61,7 @@ const useStyles = makeStyles(theme => ({
       }, */
   fab: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
   },
   textMuted: {
@@ -129,9 +128,7 @@ const UsersList = () => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Users</Typography>
           <small className={classes.textMuted}>
@@ -194,9 +191,7 @@ const UsersList = () => {
             <PersonAdd titleAccess="Add User" />
           </Fab>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 }

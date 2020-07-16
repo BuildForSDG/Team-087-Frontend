@@ -4,23 +4,22 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { GroupAdd, GroupWork } from '@material-ui/icons';
-import Header from '../Header';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
-  submit: {
+  /*submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
     fontSize: '1.2em',
@@ -39,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2)
-  },
+  }, */
   fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
@@ -93,9 +92,7 @@ const GroupsList = () => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Care Groups</Typography>
           <small className={classes.textMuted}>
@@ -133,9 +130,7 @@ const GroupsList = () => {
             <GroupAdd titleAccess="Create Group" />
           </Fab>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

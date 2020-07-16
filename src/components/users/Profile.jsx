@@ -4,35 +4,34 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
 import Review from './Review';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
-  bg: {
+  /* bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
-  },
+  }, */
   title: {
     fontWeight: 'bolder',
     flexGrow: 1,
   },
-  cardGrid: {
+  /* cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-  },
+  }, */
   card: {
     // height: '100%',
     display: 'flex',
@@ -87,9 +86,7 @@ const Profile = ({ match }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Profile</Typography>
 
@@ -139,9 +136,7 @@ const Profile = ({ match }) => {
             </>
           )}
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   )
 };

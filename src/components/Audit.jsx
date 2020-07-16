@@ -5,23 +5,22 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Bookmark } from '@material-ui/icons';
 // import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from './Header';
-import Footer from './Footer';
+import Layout from '../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    height: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
-  submit: {
+  /* submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
     fontSize: '1.2em',
@@ -49,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontWeight: 'bolder',
     flexGrow: 1,
-  },
+  }, */
   textMuted: {
     color: 'grey',
   },
@@ -94,9 +93,7 @@ const Audits = () => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Audit Logs</Typography>
           <small className={classes.textMuted}>
@@ -145,9 +142,7 @@ const Audits = () => {
             </>
           )}
         </Grid>
-      </Grid>
-
-      <Footer />
+      </Layout>
     </>
   );
 };
