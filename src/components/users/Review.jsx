@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  LinearProgress, Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon, Typography
+  Divider, Fab, Grid, List, ListItem, ListItemText, ListItemIcon, Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddComment, CommentRounded } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
+import { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,36 +16,35 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
-    paddingTop: '5px',
-    margin: '5px 0 20px'
+    minHeight: '80vh',
+    margin: '5px 10px 20px'
   },
   /* form: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(2, 0, 2),
-    padding: theme.spacing(2, 1, 2),
-    fontSize: '1.2em',
-    // backgroundColor: '#0c0032;',
-    // borderRadius: 0,
-    textTransform: 'none',
-  },
-  submitSmall: {
-    margin: theme.spacing(1, 0, 1),
-    padding: theme.spacing(1, 1, 1),
-    fontSize: '0.9em',
-    textTransform: 'none',
-    width: '30px'
-  }, */
-  bg: {
-    backgroundColor: '#0c0032',
-    color: '#ffffff',
-  },
+      padding: theme.spacing(3),
+      marginTop: theme.spacing(3),
+    },
+    submit: {
+      margin: theme.spacing(2, 0, 2),
+      padding: theme.spacing(2, 1, 2),
+      fontSize: '1.2em',
+      // backgroundColor: '#0c0032;',
+      // borderRadius: 0,
+      textTransform: 'none',
+    },
+    submitSmall: {
+      margin: theme.spacing(1, 0, 1),
+      padding: theme.spacing(1, 1, 1),
+      fontSize: '0.9em',
+      textTransform: 'none',
+      width: '30px'
+    }, */
+  /* bg: {
+      backgroundColor: '#0c0032',
+      color: '#ffffff',
+    }, */
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
+    position: 'fixed',
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
   }
 }));
@@ -62,11 +62,11 @@ const Review = ({ userId, reviewsList = [] }) => {
   const [total, setTotal] = useState(0);
 
   /* const handleChangePage = (e, newPage) => { setPage(newPage); }
-  
-    const handleChangeRowsPerPage = (e) => {
-      setRowsPerPage(++e.target.value);
-      setPage(0);
-    }; */
+    
+      const handleChangeRowsPerPage = (e) => {
+        setRowsPerPage(++e.target.value);
+        setPage(0);
+      }; */
 
   const fetchReviews = async (userId, page, rowsPerPage) => {
     setIsCalling((prevIsCalling) => !prevIsCalling);
@@ -116,12 +116,7 @@ const Review = ({ userId, reviewsList = [] }) => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           {/* <Divider /> */}
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading reviews...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="reviews" /> : (
             <>
               {total > 0 ? <List>
                 {(reviews && reviews.map((review) => (
@@ -135,9 +130,8 @@ const Review = ({ userId, reviewsList = [] }) => {
                     </ListItem>
                     <Divider variant="inset" component="li" />
                   </React.Fragment>
-                )
-                ))}
-              </List> : <span style={{display:'block', padding:'10px'}}>There are no reviews for this profile.</span>}
+                )))}
+              </List> : <span style={{ display: 'block', padding: '10px' }}>There are no reviews for this profile.</span>}
             </>
           )}
 

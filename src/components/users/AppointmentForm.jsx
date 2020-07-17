@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { Grid, TextField, Typography, CircularProgress, Button, Divider, Hidden } from "@material-ui/core";
+import { Grid, TextField, Typography, CircularProgress, Button, Divider } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from "../Header";
-import Footer from "../Footer";
+import Layout from "../../shared/Layout";
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -81,11 +80,7 @@ const AppointmentForm = (props) => {
 
   return (
     <>
-      <Grid container className={classes.root}>
-        <Hidden mdUp>
-          <Header />
-        </Hidden>
-
+      <Layout mdUp={true}>
         <Grid item className={classes.paper} xs={12}>
           <Typography variant="h5">Book Appointment</Typography>
 
@@ -122,10 +117,8 @@ const AppointmentForm = (props) => {
               {isCalling ? <CircularProgress color="secondary" /> : `Submit`}
             </Button>
           </form>
-
-          <Hidden mdUp><Footer /></Hidden>
         </Grid>
-      </Grid>
+      </Layout>
     </>
   );
 };

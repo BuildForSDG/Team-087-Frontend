@@ -1,20 +1,19 @@
 import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Button, Typography, Divider } from '@material-ui/core';
 import { KeyboardReturn } from '@material-ui/icons';
+import Layout from '../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
     flexGrow: 1,
-  },
+  }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
@@ -30,9 +29,7 @@ const NotFound = ({ history }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Oops!!!</Typography>
           <br />
@@ -46,9 +43,7 @@ const NotFound = ({ history }) => {
             <KeyboardReturn />
           </Button>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 }

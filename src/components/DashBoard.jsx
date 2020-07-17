@@ -1,25 +1,24 @@
 import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
+import Layout from '../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    height: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
-  submitSmall: {
+  /* submitSmall: {
     margin: theme.spacing(1, 0, 1),
     padding: theme.spacing(1, 1, 1),
     fontSize: '0.9em',
     textTransform: 'none',
     width: '30px'
-  },
+  }, */
 }));
 
 const DashBoard = () => {
@@ -27,19 +26,13 @@ const DashBoard = () => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
-          <Typography variant="h5">
-            DashBoard
-          </Typography>
+          <Typography variant="h5">DashBoard</Typography>
         </Grid>
-      </Grid>
-
-      <Footer />
+      </Layout>
     </>
   );
-}
+};
 
 export default DashBoard;

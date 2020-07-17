@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Grid, Paper, Typography, LinearProgress, Divider, TableContainer, Table, TableRow, TableHead,
+  Grid, Paper, Typography, Divider, TableContainer, Table, TableRow, TableHead,
   TableCell, TableBody, TablePagination, Chip, Link, Fab, Drawer
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BookOutlined, Info, Bookmark } from '@material-ui/icons';
 import { endPoints, fetchBot, fetchToken } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
 import AppointmentForm from './AppointmentForm';
+import Layout, { Loader } from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100vh',
-    flexGrow: 1,
-  },
+  /* root: {
+      height: '100vh',
+      flexGrow: 1,
+    }, */
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
     marginBottom: '20px'
   },
   /* form: {
-                          padding: theme.spacing(3),
-                          marginTop: theme.spacing(3),
-                        }, */
+                            padding: theme.spacing(3),
+                            marginTop: theme.spacing(3),
+                          }, */
   submit: {
     margin: theme.spacing(2, 0, 2),
     padding: theme.spacing(2, 1, 2),
@@ -36,23 +35,23 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 0,
     textTransform: 'none',
   },
-  submitSmall: {
-    margin: theme.spacing(1, 0, 1),
-    padding: theme.spacing(1, 1, 1),
-    fontSize: '0.9em',
-    textTransform: 'none',
-    width: '30px'
-  },
+  /* submitSmall: {
+      margin: theme.spacing(1, 0, 1),
+      padding: theme.spacing(1, 1, 1),
+      fontSize: '0.9em',
+      textTransform: 'none',
+      width: '30px'
+    }, */
   bg: {
     backgroundColor: '#0c0032',
     color: '#ffffff',
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
+  /* menuButton: {
+      marginRight: theme.spacing(2)
+    }, */
   fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
+    position: 'fixed',
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
   },
   title: {
@@ -62,21 +61,21 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   /* text_white: {
-                        color: 'white',
-                        textDecoration: '0',
-                        textTransform: 'none',
-                      }, */
+                          color: 'white',
+                          textDecoration: '0',
+                          textTransform: 'none',
+                        }, */
   textMuted: {
     color: 'grey',
   },
   table: {
     minWidth: 650,
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
+  /* textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+    }, */
 }));
 
 const Appointment = ({ match }) => {
@@ -148,9 +147,7 @@ const Appointment = ({ match }) => {
 
   return (
     <>
-      <Grid container component="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item className={classes.paper} xs={12} lg>
           <Typography variant="h5">Appointments</Typography>
           <small className={classes.textMuted}>List of scheduled/booked appointments</small>
@@ -160,12 +157,7 @@ const Appointment = ({ match }) => {
           {errorFeedBack && <div className='message alert full-length alert-error'>{errorFeedBack}</div>}
           <Divider />
 
-          {isCalling ? (
-            <>
-              <div className='message alert full-length loading'>Loading appointments...</div>
-              <LinearProgress color="secondary" />
-            </>
-          ) : (
+          {isCalling ? <Loader message="appointments" /> : (
             <>
               <TableContainer component={Paper}>
                 <Table stickyHeader className={classes.table} size="small" aria-label="users table">
@@ -181,7 +173,7 @@ const Appointment = ({ match }) => {
                         <TableCell component="th" scope="row">
                           {appointment.purpose}
                           <br /><br />
-                          <Chip icon={<Bookmark color="secondary" />} label={appointment.status || 'pending'} 
+                          <Chip icon={<Bookmark color="secondary" />} label={appointment.status || 'pending'}
                             color="secondary" size="small" />
                         </TableCell>
                         <TableCell align="center">&nbsp;</TableCell>
@@ -210,9 +202,7 @@ const Appointment = ({ match }) => {
             <AppointmentForm onBooking={handleBooking} userId={userId} isChecking={isCalling} />
           </Drawer>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };

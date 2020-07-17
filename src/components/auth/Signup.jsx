@@ -6,13 +6,12 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { endPoints, fetchBot, isLoggedIn } from '../../helpers';
-import Header from '../Header';
-import Footer from '../Footer';
+import Layout from '../../shared/Layout';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  /* root: {
     height: '100vh',
-  },
+  }, */
   bg: {
     backgroundColor: '#0c0032;',
   },
@@ -135,9 +134,7 @@ const SignupPage = ({ location }) => {
 
   return (
     <>
-      <Grid container componet="main" className={classes.root}>
-        <Header />
-
+      <Layout>
         <Grid item xs={12} lg={8} /* className={classes.bg} */>
           <Typography component="h2" variant="h3">
             <Hidden xsDown>
@@ -264,9 +261,7 @@ const SignupPage = ({ location }) => {
             </small>
           </form>
         </Grid>
-
-        <Footer />
-      </Grid>
+      </Layout>
     </>
   );
 };
